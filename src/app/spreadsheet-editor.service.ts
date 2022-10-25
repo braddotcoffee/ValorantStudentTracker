@@ -8,10 +8,12 @@ import { Note, Student } from 'src/types/student';
   providedIn: 'root'
 })
 export class SpreadsheetEditorService {
-  private readonly SPREADSHEET_ID = "1lBOj97dWakLxEvdEG1ksRFKnWB-Jadiiuf0vlqzGU7U";
+  private readonly SPREADSHEET_ID;
   private accessToken: string | null = null;
 
   constructor(private authService: SocialAuthService, private httpClient: HttpClient) {
+    this.SPREADSHEET_ID = localStorage.getItem("STUDENT_TRACKER_SPREADSHEET_ID")
+      ?? "1lBOj97dWakLxEvdEG1ksRFKnWB-Jadiiuf0vlqzGU7U"; // Default to Woohoojin Main Sheet
   }
 
   private buildHeaders() {
