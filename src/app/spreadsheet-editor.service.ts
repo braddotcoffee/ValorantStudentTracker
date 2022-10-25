@@ -162,6 +162,8 @@ export class SpreadsheetEditorService {
             }
           }
 
+          studentNotes.reverse();
+
           return {
             name: studentMetadata[0],
             tracker: studentMetadata[1],

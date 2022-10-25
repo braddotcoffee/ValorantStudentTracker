@@ -40,7 +40,7 @@ export class StudentInputComponent implements OnInit {
   }
 
   addNewNote(): void {
-    this.student.notes.push({
+    this.student.notes.unshift({
       content: "",
       date: new Date(),
       status: "NEW"
