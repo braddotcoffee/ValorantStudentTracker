@@ -1,0 +1,9 @@
+<div *ngFor="let input of inputs" class="flexbox">
+    <app-stepper-form-input
+        [stepperInput]="input"
+        [formGroup]='formGroup'></app-stepper-form-input>
+</div>
+
+<div class="flexbox">
+    <button mat-icon-button color="primary" type="submit" matStepperNext><mat-icon>forward</mat-icon></button>
+</div>
