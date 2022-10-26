@@ -9,18 +9,22 @@ import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx
 import { HttpClientModule } from '@angular/common/http';
 import { StudentSelectorComponent } from './student-selector/student-selector.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StudentInputComponent,
-    StudentSelectorComponent
+    StudentSelectorComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    MatToolbarModule,
     BrowserAnimationsModule
   ],
   providers: [
