@@ -1,9 +1,7 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-
-$main-background-color: #09161D;
-$accent-color: #FFD79C;
+@import './variables.scss';
 
 html,
 body {
