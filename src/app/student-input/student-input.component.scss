@@ -1,0 +1,18 @@
+@import '../../styles.scss';
+
+label,
+textarea,
+input {
+    background-color: $main-background-color;
+    color: white;
+}
+
+textarea,
+input {
+    border: 2px white solid;
+}
+
+button {
+    background-color: $accent-color;
+    color: $main-background-color;
+}

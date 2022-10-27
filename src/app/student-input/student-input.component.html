@@ -10,23 +10,17 @@
                 mb-10
                 whitespace-normal
                 font-normal
-                text-slate-800
-                placeholder:text-slate-700
                 rounded
-                bg-violet-50
-                focus:bg-violet-50
-                focus:placeholder:text-slate-800
                 py-3
                 px-4
                 transition ease-in-out
                 m-0
-                focus:text-slate-700 focus:outline-none
+                focus:outline-none
                 peer
             " id="student-name" placeholder=" " [(ngModel)]="student.name" (change)="updateStudent()" />
             <label class="
                 text-base
                 text-4xl
-                text-slate-700
                 absolute
                 top-3 z-10 origin-[0] left-2.5
                 duration-300 transform 
@@ -51,23 +45,17 @@
                 mb-10
                 whitespace-normal
                 font-normal
-                text-slate-800
-                placeholder:text-slate-700
                 rounded
-                bg-violet-50
-                focus:bg-violet-50
-                focus:placeholder:text-slate-800
                 py-3
                 px-4
                 transition ease-in-out
                 m-0
-                focus:text-slate-50 focus:outline-none
+                focus:outline-none
                 peer
             " id="student-tracker" placeholder=" " [(ngModel)]="student.tracker" (change)="updateStudent()" />
             <label class="
                 text-base
                 text-4xl
-                text-slate-800
                 absolute
                 top-3 z-10 origin-[0] left-2.5
                 duration-300 transform 
@@ -92,24 +80,18 @@
                 mb-10
                 whitespace-normal
                 font-normal
-                text-slate-800
-                placeholder:text-slate-700
                 rounded
-                bg-violet-50
-                focus:bg-violet-50
-                focus:placeholder:text-slate-800
                 py-3
                 px-4
                 transition ease-in-out
                 m-0
-                focus:text-slate-50 focus:outline-none
+                focus:outline-none
                 peer
             " id="student-starting-rank" placeholder=" " [(ngModel)]="student.startingRank"
                 (change)="updateStudent()" />
             <label class="
                 text-base
                 text-4xl
-                text-slate-800
                 absolute
                 top-3 z-10 origin-[0] left-2.5
                 duration-300 transform 
@@ -134,24 +116,18 @@
                 mb-10
                 whitespace-normal
                 font-normal
-                text-slate-700
-                placeholder:text-slate-700
                 rounded
-                bg-violet-50
-                focus:bg-violet-50
-                focus:placeholder:text-slate-800
                 py-3
                 px-4
                 transition ease-in-out
                 m-0
-                focus:text-slate-50 focus:outline-none
+                focus:outline-none
                 peer
             " id="student-note-{{idx}}" placeholder=" " [ngModel]="student.notes[idx].content"
                 (change)="updateNote($event, idx)"></textarea>
             <label class="
                 text-base
                 text-4xl
-                text-slate-800
                 absolute
                 top-3 z-10 origin-[0] left-2.5
                 duration-300 transform 
@@ -170,13 +146,11 @@
             <button (click)="addNewNote()" type=" button" class="
             rounded-full
             w-full
-            bg-violet-800
             w-10
             h-10
             flex
             justify-center
             text-4xl
-            text-white
             font-bold
             shadow-md
             hover:shadow-lg
@@ -191,8 +165,7 @@
     <div class="flex justify-center">
         <button (click)="onSubmit()" type=" button" class="
             px-6 py-2.5
-            bg-violet-800
-            text-white font-medium text-xs
+            font-medium text-xs
             leading-tight uppercase
             w-96
             h-20

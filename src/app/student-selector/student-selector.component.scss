@@ -1,0 +1,11 @@
+@import '../../styles.scss';
+
+button {
+    background-color: $accent-color;
+    color: $main-background-color;
+}
+
+select {
+    background-color: $main-background-color;
+    color: white;
+}

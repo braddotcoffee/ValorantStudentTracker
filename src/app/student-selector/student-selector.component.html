@@ -1,8 +1,7 @@
 <div class="fill-screen relative container mx-auto overflow-x-none overscroll-contain place-content-center mt-10 mb-0">
     <div class="flex justify-center">
         <select (click)="getStudents()" [(ngModel)]="selectedStudentName" (change)="studentSelected()"
-            id="student-picker"
-            class="divide-y bg-violet-50 border border-violet-100 text-slate-900 text-sm rounded-lg block w-1/2 p-2.5 ">
+            id="student-picker" class="divide-y border text-sm rounded-lg block w-1/2 p-2.5 ">
             <option [ngValue]="null" selected>Choose a student...</option>
             <option *ngFor="let studentName of studentNames" [ngValue]="studentName">{{studentName}}</option>
         </select>
@@ -10,13 +9,11 @@
             <button (click)="addNewStudent()" type=" button" class="
             rounded-full
             w-full
-            bg-violet-800
             w-10
             h-10
             flex
             justify-center
             text-4xl
-            text-white
             font-bold
             shadow-md
             hover:shadow-lg
