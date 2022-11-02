@@ -1,11 +1,17 @@
-@use '../../../../_variables'as globals;
+@use '../../../variables' as globals;
 
 .mat-card-header.review {
-  background-color: globals.$primary;
+  // background-color: globals.$accent-color;
+  // color: globals.$primary;
+  background-color: globals.$light-primary;
   color: white;
   text-align: center;
-  border-radius: 5px;
+  border-radius: 10px;
   margin-bottom: 1em;
+}
+
+.mat-button.mat-primary {
+  color: globals.$accent-color;
 }
 
 .mat-card-header .mat-card-title {
@@ -23,4 +29,16 @@ button.submit {
 
 mat-form-field {
   width: 50%;
+}
+
+.mat-table,
+.mat-card {
+  background-color: globals.$primary;
+}
+
+.mat-stepper-horizontal {
+  background-color: globals.$primary;
+  color: white;
+  border: 2px white solid;
+  border-radius: 10px;
 }

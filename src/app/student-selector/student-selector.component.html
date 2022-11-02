@@ -1,5 +1,5 @@
 <div class="fill-screen relative container mx-auto overflow-x-none overscroll-contain place-content-center mt-10 mb-0">
-    <div class="flex justify-center">
+    <div class="flex justify-center mb-10">
         <select (click)="getStudents()" [(ngModel)]="selectedStudentName" (change)="studentSelected()"
             id="student-picker" class="divide-y border text-sm rounded-lg block w-1/2 p-2.5 ">
             <option [ngValue]="null" selected>Choose a student...</option>
@@ -25,6 +25,10 @@
             ">+</button>
         </div>
     </div>
-    <app-student-input *ngIf="selectedStudent !== null" [student]="selectedStudent"
-        (requestCompleteEvent)="resetStudent()"></app-student-input>
+    <div *ngIf="loading" class="flex justify-center">
+        <mat-spinner color="primary"></mat-spinner>
+    </div>
+    <app-stepper-form *ngIf="selectedStudent !== null && !loading" [moveEvent]="moveEvent.asObservable()"
+        [steps]="steps" (newNoteEvent)="createNewNote()" (submitEvent)="onSubmit()">
+    </app-stepper-form>
 </div>

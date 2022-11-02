@@ -4,11 +4,11 @@ export interface StepperFormInput {
     label: string;
     controlName: string;
     placeholder: string;
+    textarea?: boolean;
 }
 
 export interface StepperFormStep {
     formGroup: FormGroup;
-    formArray: FormArray;
     stepLabel: string;
     inputs: StepperFormInput[];
 }

@@ -1,4 +1,6 @@
+@import "../../variables.scss";
+
 .toolbar-color {
-    background-color: #37474F;
+    background-color: $light-primary;
     color: white;
 }

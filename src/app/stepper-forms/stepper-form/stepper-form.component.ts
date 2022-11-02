@@ -1,6 +1,8 @@
-import { Output } from '@angular/core';
+import { Output, ViewChild } from '@angular/core';
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
+import { Observable } from 'rxjs';
 import { StepperFormStep } from '../stepper-form-types';
 
 interface Preview {
@@ -15,12 +17,21 @@ interface Preview {
 })
 export class StepperFormComponent implements OnInit {
   @Input() steps: StepperFormStep[] = [];
+  @Input()
+  moveEvent!: Observable<number>;
+  @Output() newNoteEvent: EventEmitter<void> = new EventEmitter();
   @Output() submitEvent: EventEmitter<void> = new EventEmitter();
   displayedColumns: string[] = ['property', 'value'];
+  @ViewChild('stepper') stepper!: MatStepper;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.moveEvent.subscribe((index: number) => this.onMoveEvent(index))
+  }
+
+  onMoveEvent(index: number) {
+    this.stepper.selectedIndex = index;
   }
 
   emitSubmit(): void {

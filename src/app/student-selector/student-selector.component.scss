@@ -9,3 +9,8 @@ select {
     background-color: $main-background-color;
     color: white;
 }
+
+.mat-progress-spinner circle,
+.mat-spinner circle {
+    stroke: $accent-color;
+}

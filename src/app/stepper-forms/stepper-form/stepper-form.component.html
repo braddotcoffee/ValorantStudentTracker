@@ -1,35 +1,34 @@
 <mat-horizontal-stepper #stepper>
-  <mat-step *ngFor="let step of steps" [stepControl]="step.formGroup">
-    <form [formGroup]="step.formGroup">
-        <ng-template matStepLabel>{{step.stepLabel}}</ng-template>
-        <app-stepper-form-step
-        [formGroup]="step.formGroup"
-        [inputs]="step.inputs"></app-stepper-form-step>
-    </form>
-  </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Review</ng-template>
-    <mat-card>
-        <mat-card-header class="review">
-            <mat-card-title>Review</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <mat-table [dataSource]="buildReviewStructure()" >
-                <ng-container matColumnDef="property">
-                    <mat-header-cell *matHeaderCellDef>Property</mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="value">
-                    <mat-header-cell *matHeaderCellDef>Value</mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.value}} </mat-cell>
-                </ng-container>
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-            </mat-table>
-        </mat-card-content>
-    </mat-card>
-    <div class="flexbox">
-        <button mat-button color="primary" class="submit" (click)="emitSubmit()">Submit</button>
-    </div>
-  </mat-step>
+    <mat-step *ngFor="let step of steps" [stepControl]="step.formGroup">
+        <form [formGroup]="step.formGroup">
+            <ng-template matStepLabel>{{step.stepLabel}}</ng-template>
+            <app-stepper-form-step [formGroup]="step.formGroup" [inputs]="step.inputs"
+                (newNoteEvent)="newNoteEvent.emit()"></app-stepper-form-step>
+        </form>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Review</ng-template>
+        <mat-card>
+            <mat-card-header class="review">
+                <mat-card-title>Review</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-table [dataSource]="buildReviewStructure()">
+                    <ng-container matColumnDef="property">
+                        <mat-header-cell *matHeaderCellDef>Property</mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="value">
+                        <mat-header-cell *matHeaderCellDef>Value</mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.value}} </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+            </mat-card-content>
+        </mat-card>
+        <div class="flex justify-center">
+            <button mat-button color="primary" class="submit" (click)="emitSubmit()">Submit</button>
+        </div>
+    </mat-step>
 </mat-horizontal-stepper>

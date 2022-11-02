@@ -1,7 +1,11 @@
+@use '@angular/material' as mat;
+
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import './variables.scss';
+
+@include mat.core();
 
 html,
 body {
@@ -15,4 +19,46 @@ body {
 
 .main-background-color {
     background-color: $main-background-color;
+}
+
+.mat-form-field.mat-focused .mat-form-field-ripple {
+    background-color: $accent-color;
+}
+
+.mat-form-field.mat-focused .mat-form-field-label {
+    color: $accent-color;
+}
+
+.mat-input-element {
+    caret-color: $accent-color;
+}
+
+$primary-palette: (
+    500: $main-background-color,
+    contrast: (500: white)
+);
+
+$accent-palette: (
+    500: $accent-color
+);
+
+$custom-theme: mat.define-light-theme((color: (primary: $accent-palette, accent: $accent-palette, foreground: $accent-palette)));
+
+// grab color.foreground map from theme
+$color: map-get($map: $custom-theme, $key: color);
+$foreground: map-get($map: $color, $key: foreground);
+
+$themed-foreground: map-merge($foreground, (text: white, secondary-text: $accent-color, divider: white));
+$themed-color: map-merge($color, (foreground: $themed-foreground));
+$custom-theme: map-merge($custom-theme, (color: $themed-color));
+
+@include mat.all-component-themes($custom-theme);
+
+.mat-button.mat-primary .mat-button-focus-overlay {
+    background-color: $accent-color;
+}
+
+.mat-progress-spinner circle,
+.mat-spinner circle {
+    stroke: $accent-color;
 }
