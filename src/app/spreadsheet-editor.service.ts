@@ -1,8 +1,9 @@
-import { SocialAuthService, SocialUser, GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Note, Student } from 'src/types/student';
+
+const MS_IN_SECOND = 1000;
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +11,22 @@ import { Note, Student } from 'src/types/student';
 export class SpreadsheetEditorService {
   private readonly SPREADSHEET_ID;
   private accessToken: string | null = null;
+  private client: google.accounts.oauth2.TokenClient;
+  private expirationTime: number = Date.now();
 
-  constructor(private authService: SocialAuthService, private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient) {
     this.SPREADSHEET_ID = localStorage.getItem("STUDENT_TRACKER_SPREADSHEET_ID")
       ?? "1lBOj97dWakLxEvdEG1ksRFKnWB-Jadiiuf0vlqzGU7U"; // Default to Woohoojin Main Sheet
+
+    this.client = google.accounts.oauth2.initTokenClient({
+      client_id: '338640576133-u9oi7ob3pvldoapfhpm7025j58dbanb6.apps.googleusercontent.com',
+      scope: 'https://www.googleapis.com/auth/spreadsheets',
+      prompt: 'none',
+      callback: (response: google.accounts.oauth2.TokenResponse) => {
+        this.expirationTime = Date.now() + (Number(response.expires_in) * MS_IN_SECOND);
+        this.accessToken = response.access_token;
+      },
+    });
   }
 
   private buildHeaders() {
@@ -56,8 +69,9 @@ export class SpreadsheetEditorService {
   }
 
   private async ensureAccessToken() {
-    if (this.accessToken === null) {
-      this.accessToken = await this.authService.getAccessToken(GoogleLoginProvider.PROVIDER_ID);
+    const timeUntilExpiration = this.expirationTime - Date.now();
+    if (this.accessToken === null || timeUntilExpiration < MS_IN_SECOND) {
+      this.client.requestAccessToken();
     }
     return Promise.resolve();
   }
@@ -177,6 +191,8 @@ export class SpreadsheetEditorService {
   }
 
   async updateStudent(student: Student) {
+    await this.ensureAccessToken();
+
     const updates = [];
     const newNotes: Note[] = [];
     if (student.status === "UPDATED") {
