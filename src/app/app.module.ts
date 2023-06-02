@@ -58,29 +58,6 @@ import { StepperFormStepComponent } from './stepper-forms/stepper-form-step/step
     MatTooltipModule,
     BrowserAnimationsModule
   ],
-  providers: [
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: true,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '338640576133-u9oi7ob3pvldoapfhpm7025j58dbanb6.apps.googleusercontent.com',
-              {
-                scopes: "https://www.googleapis.com/auth/spreadsheets",
-                oneTapEnabled: true,
-              }
-            ),
-          }
-        ],
-        onError: (err: any) => {
-          console.error(err);
-        }
-      } as SocialAuthServiceConfig,
-    }
-  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
