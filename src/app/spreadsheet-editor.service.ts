@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable, Subject } from 'rxjs';
 import { Note, Student } from 'src/types/student';
 
 const MS_IN_SECOND = 1000;
@@ -11,6 +11,7 @@ const MS_IN_SECOND = 1000;
 export class SpreadsheetEditorService {
   private readonly SPREADSHEET_ID;
   private accessToken: string | null = null;
+  private authenticatedSubject: Subject<void> = new Subject();
   private client: google.accounts.oauth2.TokenClient;
   private expirationTime: number = Date.now();
 
@@ -25,6 +26,7 @@ export class SpreadsheetEditorService {
       callback: (response: google.accounts.oauth2.TokenResponse) => {
         this.expirationTime = Date.now() + (Number(response.expires_in) * MS_IN_SECOND);
         this.accessToken = response.access_token;
+        this.authenticatedSubject.next();
       },
     });
   }
@@ -70,10 +72,13 @@ export class SpreadsheetEditorService {
 
   private async ensureAccessToken() {
     const timeUntilExpiration = this.expirationTime - Date.now();
+    const promise = firstValueFrom(this.authenticatedSubject);
     if (this.accessToken === null || timeUntilExpiration < MS_IN_SECOND) {
       this.client.requestAccessToken();
+    } else {
+      this.authenticatedSubject.next();
     }
-    return Promise.resolve();
+    return promise;
   }
 
   private buildStudentMetadata(student: Student) {
