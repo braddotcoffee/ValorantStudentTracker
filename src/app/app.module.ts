@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StudentInputComponent } from './student-input/student-input.component';
-import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { HttpClientModule } from '@angular/common/http';
 import { StudentSelectorComponent } from './student-selector/student-selector.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
