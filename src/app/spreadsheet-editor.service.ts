@@ -22,7 +22,7 @@ export class SpreadsheetEditorService {
     this.client = google.accounts.oauth2.initTokenClient({
       client_id: '338640576133-u9oi7ob3pvldoapfhpm7025j58dbanb6.apps.googleusercontent.com',
       scope: 'https://www.googleapis.com/auth/spreadsheets',
-      prompt: 'none',
+      prompt: '',
       callback: (response: google.accounts.oauth2.TokenResponse) => {
         this.expirationTime = Date.now() + (Number(response.expires_in) * MS_IN_SECOND);
         this.accessToken = response.access_token;
