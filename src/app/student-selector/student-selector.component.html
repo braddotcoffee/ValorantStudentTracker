@@ -12,8 +12,8 @@
             </mat-option>
 
             <ng-container *ngIf="!loading && (filteredStudentNames | async) as students">
-                <!-- Create student if the filter finds no one -->
-                <ng-container *ngIf="students.length == 0">
+                <!-- Create student if the filter finds no one and logged in -->
+                <ng-container *ngIf="students.length == 0 && spreadsheetEditor.isLoggedIn()">
                     <mat-option (click)='onClickCreate()'>
                         Create student
                     </mat-option>

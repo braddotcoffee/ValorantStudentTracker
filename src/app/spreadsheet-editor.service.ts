@@ -70,6 +70,19 @@ export class SpreadsheetEditorService {
       + "/values:batchUpdate"
   }
 
+  public async login(): Promise<void> {
+      await this.ensureAccessToken();
+  }
+
+  public isLoggedIn(): boolean {
+      const timeUntilExpiration = this.expirationTime - Date.now();
+      if (timeUntilExpiration < MS_IN_SECOND) {
+          return false;
+      }
+      
+      return false;
+  }
+
   private async ensureAccessToken() {
     const timeUntilExpiration = this.expirationTime - Date.now();
     const promise = firstValueFrom(this.authenticatedSubject);

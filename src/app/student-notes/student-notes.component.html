@@ -32,7 +32,7 @@
         <div class="student-notes">
             <div class="student-notes-header">
                 <div class="student-notes-title">Notes</div>
-                <div class="student-add-note-button">
+                <div class="student-add-note-button" *ngIf="spreadsheetEditor.isLoggedIn()">
                     <button mat-button color="button-accent" (click)="onClickAdd()">+</button>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                         <mat-panel-title>{{note.date.toLocaleDateString()}}</mat-panel-title>
                     </mat-expansion-panel-header>
                     <div class="student-note-content">{{note.content}}</div>
-                    <mat-action-row>
+                    <mat-action-row *ngIf="spreadsheetEditor.isLoggedIn()">
                         <button mat-button color="button-accent" (click)="onClickEdit(note)">Edit</button>
                     </mat-action-row>
                 </mat-expansion-panel>

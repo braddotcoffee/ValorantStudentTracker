@@ -12,7 +12,14 @@
     height: 100%;
     padding: 144px;
     background-color: var(--primary-850);
-    border-bottom: 4px solid var(--accent);;
+    border-bottom: 4px solid var(--accent);
+    border-top: 4px solid var(--accent);
+}
+
+.landing-login-button {
+    display: flex;
+    justify-content: flex-end;
+    margin: 12px;
 }
 
 .landing-secondary-text {

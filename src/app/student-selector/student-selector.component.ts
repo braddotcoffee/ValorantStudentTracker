@@ -19,7 +19,7 @@ export class StudentSelectorComponent implements OnInit {
     loading: boolean = true;
 
     constructor(
-        private spreadsheetEditor: SpreadsheetEditorService,
+        public spreadsheetEditor: SpreadsheetEditorService,
         private matDialog: MatDialog,
         private router: Router
     ) {

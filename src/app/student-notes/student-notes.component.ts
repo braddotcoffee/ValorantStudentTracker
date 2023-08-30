@@ -17,9 +17,9 @@ export class StudentNotesComponent implements OnInit {
     failed: boolean = false;
 
     constructor(
-        private spreadsheetEditor: SpreadsheetEditorService,
+        public spreadsheetEditor: SpreadsheetEditorService,
         private route: ActivatedRoute,
-        public matDialog: MatDialog
+        private matDialog: MatDialog
     ) { }
 
     async ngOnInit(): Promise<void> {
