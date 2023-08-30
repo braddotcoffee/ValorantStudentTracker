@@ -1,34 +1,30 @@
-<div class="fill-screen relative container mx-auto overflow-x-none overscroll-contain place-content-center mt-10 mb-0">
-    <div class="flex justify-center mb-10">
-        <select (click)="getStudents()" [(ngModel)]="selectedStudentName" (change)="studentSelected()"
-            id="student-picker" class="divide-y border text-sm rounded-lg block w-1/2 p-2.5 ">
-            <option [ngValue]="null" selected>Choose a student...</option>
-            <option *ngFor="let studentName of studentNames" [ngValue]="studentName">{{studentName}}</option>
-        </select>
-        <div class="absolute right-80">
-            <button (click)="addNewStudent()" type=" button" class="
-            rounded-full
-            w-full
-            w-10
-            h-10
-            flex
-            justify-center
-            text-4xl
-            font-bold
-            shadow-md
-            hover:shadow-lg
-            focus:shadow-lg
-            focus:outline-none
-            focus:ring-0
-            active:shadow-lg
-            mb-10
-            ">+</button>
-        </div>
-    </div>
-    <div *ngIf="loading" class="flex justify-center">
-        <mat-spinner color="primary"></mat-spinner>
-    </div>
-    <app-stepper-form *ngIf="selectedStudent !== null && !loading" [moveEvent]="moveEvent.asObservable()"
-        [steps]="steps" (newNoteEvent)="createNewNote()" (submitEvent)="onSubmit()">
-    </app-stepper-form>
+<div class="student-selector-container">
+    <mat-form-field>
+        <mat-label>Search Student...</mat-label>
+
+        <input type="text" matInput [formControl]="searchStudentsCtrl" [matAutocomplete]="auto">
+
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option disabled *ngIf="loading">
+                <div class="student-selector-load">
+                    <mat-spinner diameter="35"></mat-spinner>
+                </div>
+            </mat-option>
+
+            <ng-container *ngIf="!loading && (filteredStudentNames | async) as students">
+                <!-- Create student if the filter finds no one -->
+                <ng-container *ngIf="students.length == 0">
+                    <mat-option (click)='onClickCreate()'>
+                        Create student
+                    </mat-option>
+                </ng-container>
+
+                <ng-container *ngIf="students.length > 0">
+                    <mat-option (click)='openStudentPage(student)' *ngFor="let student of filteredStudentNames | async" [value]="student">
+                        {{student}}
+                    </mat-option>
+                </ng-container>
+            </ng-container>
+        </mat-autocomplete>
+    </mat-form-field>
 </div>

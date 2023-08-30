@@ -1,16 +1,25 @@
-@import '../../variables.scss';
-
-button {
-    background-color: $accent-color;
-    color: $main-background-color;
+.student-selector-container {
+    padding: 16px;
 }
 
-select {
-    background-color: $main-background-color;
-    color: white;
+.student-selector-load {
+    display: flex;
+    justify-content: center;
 }
 
-.mat-progress-spinner circle,
-.mat-spinner circle {
-    stroke: $accent-color;
+.mat-option:hover, 
+.mat-option.mat-selected:hover, 
+.mat-option.mat-selected.mat-active:hover {
+    color: var(--black);
+    background-color: var(--accent);
+    transition-duration: .25s;
+}
+
+.mat-option.mat-selected.mat-active {
+    color: var(--white);
+    background-color: var(--primary-800);
+}
+
+.student-selector-container .mat-form-field {
+    min-width: 280px;
 }

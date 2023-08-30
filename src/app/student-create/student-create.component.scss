@@ -1,0 +1,64 @@
+.student-create-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.student-create-load {
+    display: flex;
+    justify-content: center;
+}
+
+.student-create-title {
+    font-size: 24px;
+    margin-bottom: 24px;
+    color: var(--accent);
+}
+
+.student-create-container .mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.student-create-container .mat-dialog-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.mat-option:hover, 
+.mat-option.mat-selected:hover, 
+.mat-option.mat-selected.mat-active:hover {
+    color: var(--black);
+    background-color: var(--accent);
+    transition-duration: .25s;
+}
+
+.mat-option.mat-selected.mat-active {
+    color: var(--white);
+    background-color: var(--primary-800);
+}
+
+::ng-deep .student-create-container .mat-form-field-underline {
+    background-color: var(--white)!important;
+}
+
+::ng-deep .student-create-container .mat-form-field-ripple {
+    background-color: var(--accent)!important;
+}
+
+::ng-deep .student-create-container .mat-form-field-infix {
+    color: var(--white)!important;
+}
+
+::ng-deep .student-create-container .mat-input-element {
+    caret-color: var(--white)!important;
+}
+
+::ng-deep .student-create-container .mat-form-field .mat-form-field-label {
+    color: var(--white)!important;
+}
+
+::ng-deep .student-create-container .mat-form-field.mat-focused .mat-form-field-label {
+    color: var(--accent)!important;
+}

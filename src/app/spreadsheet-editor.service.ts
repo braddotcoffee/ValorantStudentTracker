@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom, map, Observable, Subject } from 'rxjs';
+import { getGoogleClientID, getSpreadsheetID } from 'src/main';
 import { Note, Student } from 'src/types/student';
 
 const MS_IN_SECOND = 1000;
@@ -16,19 +17,18 @@ export class SpreadsheetEditorService {
   private expirationTime: number = Date.now();
 
   constructor(private httpClient: HttpClient) {
-    this.SPREADSHEET_ID = localStorage.getItem("STUDENT_TRACKER_SPREADSHEET_ID")
-      ?? "1lBOj97dWakLxEvdEG1ksRFKnWB-Jadiiuf0vlqzGU7U"; // Default to Woohoojin Main Sheet
+      this.SPREADSHEET_ID = localStorage.getItem("STUDENT_TRACKER_SPREADSHEET_ID") ?? getSpreadsheetID();
 
-    this.client = google.accounts.oauth2.initTokenClient({
-      client_id: '338640576133-u9oi7ob3pvldoapfhpm7025j58dbanb6.apps.googleusercontent.com',
-      scope: 'https://www.googleapis.com/auth/spreadsheets',
-      prompt: '',
-      callback: (response: google.accounts.oauth2.TokenResponse) => {
-        this.expirationTime = Date.now() + (Number(response.expires_in) * MS_IN_SECOND);
-        this.accessToken = response.access_token;
-        this.authenticatedSubject.next();
-      },
-    });
+      this.client = google.accounts.oauth2.initTokenClient({
+          client_id: getGoogleClientID(),
+          scope: 'https://www.googleapis.com/auth/spreadsheets',
+          prompt: '',
+          callback: (response: google.accounts.oauth2.TokenResponse) => {
+              this.expirationTime = Date.now() + (Number(response.expires_in) * MS_IN_SECOND);
+              this.accessToken = response.access_token;
+              this.authenticatedSubject.next();
+          },
+      });
   }
 
   private buildHeaders() {
@@ -93,7 +93,7 @@ export class SpreadsheetEditorService {
     return [
       studentName,
       note.content,
-      note.date.toLocaleDateString()
+      note.date.toLocaleDateString("en-US")
     ]
   }
 
@@ -167,7 +167,7 @@ export class SpreadsheetEditorService {
             }
           }
 
-          if (studentMetadata === undefined) throw new Error("Failed to find student");
+          if (studentMetadata === undefined) throw new NoStudentExistsError();
 
           const studentNotes: Note[] = [];
 
@@ -238,5 +238,12 @@ export class SpreadsheetEditorService {
 
     const newNotesRequest = this.writeNewNotes(student.name, newNotes)
     return Promise.all([updateRequest, newNotesRequest]);
+  }
+}
+
+export class NoStudentExistsError extends Error {
+  constructor() {
+    super("Failed to find student");
+    this.name = "NoStudentExistsError";
   }
 }

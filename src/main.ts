@@ -5,7 +5,23 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 if (environment.production) {
-  enableProdMode();
+    enableProdMode();
+}
+
+export function getSpreadsheetID(): string {
+    if (environment.spreadsheetId) {
+        return environment.spreadsheetId;
+    }
+
+    return "";
+}
+
+export function getGoogleClientID(): string {
+    if (environment.googleClientId) {
+        return environment.googleClientId;
+    }
+
+    return "";
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)

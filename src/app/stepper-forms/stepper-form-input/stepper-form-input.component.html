@@ -1,9 +1,0 @@
-<div class="container">
-    <mat-form-field [formGroup]="formGroup">
-        <mat-label>{{stepperInput.label}}</mat-label>
-        <input *ngIf="!stepperInput.textarea" matInput placeholder="{{stepperInput.placeholder}}"
-            formControlName="{{stepperInput.controlName}}">
-        <textarea rows="25" *ngIf="stepperInput.textarea === true" matInput placeholder="{{stepperInput.placeholder}}"
-            formControlName="{{stepperInput.controlName}}"></textarea>
-    </mat-form-field>
-</div>

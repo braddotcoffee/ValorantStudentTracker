@@ -1,0 +1,53 @@
+<div class="student-notes-loading" *ngIf="loading">
+    <mat-spinner color="primary"></mat-spinner>
+</div>
+
+<div class="student-notes-failed" *ngIf="failed">
+    <div class="student-header">
+        <div class="student-not-found">Student not found...</div>
+    </div>
+</div>
+
+<div class="student-container" *ngIf="student !== null && !loading">
+    <div class="student-header">
+        <div class="student-name">{{student.name}}</div>
+    </div>
+
+    <div class="student-data-container">
+        <div class="cards">
+            <div class="starting-rank-card card">
+                <div class="card-title">Starting Rank</div>
+                <div class="student-rank">
+                    <img class="rank-image" src='{{ getRankImagePath() }}'/>
+                    <div class="starting-rank">{{student.startingRank}}</div>
+                </div>
+            </div>
+            <a href="{{student.tracker}}">
+                <div class="trackergg-card card">
+                    <div class="card-title">Visit Tracker</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="student-notes">
+            <div class="student-notes-header">
+                <div class="student-notes-title">Notes</div>
+                <div class="student-add-note-button">
+                    <button mat-button color="button-accent" (click)="onClickAdd()">+</button>
+                </div>
+            </div>
+            <div class="student-notes-content" *ngIf="student.notes.length == 0">Student has no notes</div>
+            <mat-accordion>
+                <mat-expansion-panel *ngFor="let note of student.notes; last as isLast" [expanded]="isLast">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>{{note.date.toLocaleDateString()}}</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="student-note-content">{{note.content}}</div>
+                    <mat-action-row>
+                        <button mat-button color="button-accent" (click)="onClickEdit(note)">Edit</button>
+                    </mat-action-row>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </div>
+</div>

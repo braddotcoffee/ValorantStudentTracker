@@ -1,6 +1,7 @@
-@import "../../variables.scss";
-
-.toolbar-color {
-    background-color: $light-primary;
-    color: white;
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--accent);
+    color: var(--primary);
 }

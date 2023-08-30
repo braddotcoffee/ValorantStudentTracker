@@ -1,0 +1,59 @@
+<div class="student-create-container">
+    <div class="student-create-load" *ngIf="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+
+    <ng-container *ngIf="!loading">
+        <div class="student-create-title">New Student</div>
+        
+        <mat-dialog-content [formGroup]="createStudentForm">
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput type="text" formControlName="name">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Tracker</mat-label>
+                <input matInput type="text" formControlName="tracker">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Starting Rank</mat-label>
+                <mat-select formControlName="startingRank">
+                    <mat-option value="Iron 1">Iron 1</mat-option>
+                    <mat-option value="Iron 2">Iron 2</mat-option>
+                    <mat-option value="Iron 3">Iron 3</mat-option>
+                    <mat-option value="Bronze 1">Bronze 1</mat-option>
+                    <mat-option value="Bronze 2">Bronze 2</mat-option>
+                    <mat-option value="Bronze 3">Bronze 3</mat-option>
+                    <mat-option value="Silver 1">Silver 1</mat-option>
+                    <mat-option value="Silver 2">Silver 2</mat-option>
+                    <mat-option value="Silver 3">Silver 3</mat-option>
+                    <mat-option value="Gold 1">Gold 1</mat-option>
+                    <mat-option value="Gold 2">Gold 2</mat-option>
+                    <mat-option value="Gold 3">Gold 3</mat-option>
+                    <mat-option value="Platinum 1">Platinum 1</mat-option>
+                    <mat-option value="Platinum 2">Platinum 2</mat-option>
+                    <mat-option value="Platinum 3">Platinum 3</mat-option>
+                    <mat-option value="Diamond 1">Diamond 1</mat-option>
+                    <mat-option value="Diamond 2">Diamond 2</mat-option>
+                    <mat-option value="Diamond 3">Diamond 3</mat-option>
+                    <mat-option value="Ascendant 1">Ascendant 1</mat-option>
+                    <mat-option value="Ascendant 2">Ascendant 2</mat-option>
+                    <mat-option value="Ascendant 3">Ascendant 3</mat-option>
+                    <mat-option value="Immortal 1">Immortal 1</mat-option>
+                    <mat-option value="Immortal 2">Immortal 2</mat-option>
+                    <mat-option value="Immortal 3">Immortal 3</mat-option>
+                    <mat-option value="Radiant">Radiant</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="['Immortal 1', 'Immortal 2', 'Immortal 3', 'Radiant'].includes(createStudentForm.get('startingRank')?.value)">
+                <mat-label>RR</mat-label>
+                <input matInput type="number" formControlName="rr">
+            </mat-form-field>
+        </mat-dialog-content>
+        
+        <mat-dialog-actions>
+            <button mat-button type="submit" [disabled]="!createStudentForm.valid" color="button-accent" (click)="onClickCreate()">Create</button>
+            <button mat-button mat-dialog-close color="button-warn">Close</button>
+        </mat-dialog-actions>
+    </ng-container>
+</div>
