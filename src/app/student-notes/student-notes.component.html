@@ -22,7 +22,7 @@
                     <div class="starting-rank">{{student.startingRank}}</div>
                 </div>
             </div>
-            <a href="{{student.tracker}}">
+            <a href="{{student.tracker}}" *ngIf="student.tracker">
                 <div class="trackergg-card card">
                     <div class="card-title">Visit Tracker</div>
                 </div>
