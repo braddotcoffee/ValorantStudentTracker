@@ -20,8 +20,8 @@ export class StudentSelectorComponent implements OnInit {
 
     constructor(
         public spreadsheetService: SpreadsheetService,
+        public router: Router,
         private matDialog: MatDialog,
-        private router: Router
     ) {
       this.filteredStudentNames = this.searchStudentsCtrl.valueChanges
           .pipe(

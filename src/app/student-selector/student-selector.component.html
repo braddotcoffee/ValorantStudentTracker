@@ -1,7 +1,7 @@
 <div class="student-selector-container">
-    <mat-form-field>
-        <mat-label>Search Student...</mat-label>
-
+    <mat-form-field [floatLabel]="router.url == '/' ? 'auto' : 'never'">
+        <mat-label>Search Students...</mat-label>
+       
         <input type="text" matInput [formControl]="searchStudentsCtrl" [matAutocomplete]="auto">
 
         <mat-autocomplete #auto="matAutocomplete">
