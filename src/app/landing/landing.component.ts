@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SpreadsheetEditorService } from '../spreadsheet-editor.service';
+import { SpreadsheetService } from '../spreadsheet.service';
 
 @Component({
     selector: 'app-landing',
@@ -8,12 +8,12 @@ import { SpreadsheetEditorService } from '../spreadsheet-editor.service';
 })
 export class StudentLandingComponent implements OnInit {
     constructor(
-        public spreadsheetEditor: SpreadsheetEditorService,
+        public spreadsheetService: SpreadsheetService,
     ) { }
 
     async ngOnInit(): Promise<void> { }
 
-    onClickLogin() {
-        this.spreadsheetEditor.login();
+    async onClickLogin() {
+        await this.spreadsheetService.login();
     }
 }

@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Student } from 'src/types/student';
-import { SpreadsheetEditorService } from '../spreadsheet-editor.service';
+import { SpreadsheetService } from '../spreadsheet.service';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -15,7 +15,7 @@ export class StudentNoteCreateComponent implements OnInit {
     student: Student;
     
     constructor(
-        private spreadsheetEditor: SpreadsheetEditorService,
+        private spreadsheetService: SpreadsheetService,
         private formBuilder: FormBuilder,
         @Inject(MAT_DIALOG_DATA) private data: any
     ) {
@@ -39,7 +39,7 @@ export class StudentNoteCreateComponent implements OnInit {
             status: "NEW"
         });
 
-        const obs = await this.spreadsheetEditor.updateStudent(this.student);
+        const obs = await this.spreadsheetService.instance.updateStudent(this.student);
         forkJoin(obs).subscribe(_ => { });
     }
 }

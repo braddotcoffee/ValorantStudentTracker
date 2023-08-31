@@ -1,0 +1,19 @@
+version: '3.8'
+name: valorant-student-tracker
+services:
+  backend:
+    image: ghcr.io/braddotcoffee/valorantstudenttrackerbackend:main
+    ports:
+      - 5000:5000
+    configs:
+      - source: student-tracker-config
+        target: /config.yaml
+    secrets:
+      - source: student-tracker-secrets
+        target: /secrets.yaml
+configs:
+  student-tracker-config:
+    file: ./config.yaml
+secrets:
+  student-tracker-secrets:
+    file: ./secrets.yaml

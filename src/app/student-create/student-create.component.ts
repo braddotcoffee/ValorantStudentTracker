@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Student } from 'src/types/student';
-import { SpreadsheetEditorService } from '../spreadsheet-editor.service';
+import { SpreadsheetService } from '../spreadsheet.service';
 import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -16,7 +16,7 @@ export class StudentCreateComponent implements OnInit {
     loading: boolean = false;
     
     constructor(
-        private spreadsheetEditor: SpreadsheetEditorService,
+        private spreadsheetService: SpreadsheetService,
         private router: Router,
         private formBuilder: FormBuilder,
         private dialogRef: MatDialogRef<StudentCreateComponent>,
@@ -49,7 +49,7 @@ export class StudentCreateComponent implements OnInit {
         };
 
         this.loading = true;
-        const obs = await this.spreadsheetEditor.writeNewStudent(student);
+        const obs = await this.spreadsheetService.instance.createStudent(student);
         forkJoin(obs).subscribe(_ => {
             this.loading = false;
             this.dialogRef.close();

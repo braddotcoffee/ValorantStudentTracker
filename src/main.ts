@@ -8,20 +8,16 @@ if (environment.production) {
     enableProdMode();
 }
 
-export function getSpreadsheetID(): string {
-    if (environment.spreadsheetId) {
-        return environment.spreadsheetId;
-    }
+export function getBackendUrl(): string {
+    return environment.backendUrl;
+}
 
-    return "";
+export function getSpreadsheetID(): string {
+    return environment.spreadsheetId;
 }
 
 export function getGoogleClientID(): string {
-    if (environment.googleClientId) {
-        return environment.googleClientId;
-    }
-
-    return "";
+    return environment.googleClientId;
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)

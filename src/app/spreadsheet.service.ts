@@ -1,15 +1,119 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 import { firstValueFrom, map, Observable, Subject } from 'rxjs';
-import { getGoogleClientID, getSpreadsheetID } from 'src/main';
+import { getBackendUrl, getGoogleClientID, getSpreadsheetID } from 'src/main';
 import { Note, Student } from 'src/types/student';
 
 const MS_IN_SECOND = 1000;
 
+export interface ISpreadsheetService {
+  /**
+   * Gets a list of all student names from the spreadsheet.
+   * 
+   * @returns An array of student names. 
+   * 
+   */
+  getStudentNames(): Promise<Observable<string[]>>;
+
+  /**
+   * Creates a new student on the spreadsheet.
+   * 
+   * @param student The student object to persist onto the spreadsheet. 
+   */
+  createStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]>;
+
+  /**
+   * Gets all details about a student from the spreadsheet including their name, tracker, starting rank and notes.
+   * 
+   * @param studentName The name of the student in the spreadsheet.
+   */
+  getStudent(studentName: string): Promise<Observable<Student>>;
+
+  /**
+   * Updates data about a student in the spreadsheet.
+   * 
+   * @param student The updated student object to persist.
+   */
+  updateStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]>;
+}
+
 @Injectable({
   providedIn: 'root'
 })
-export class SpreadsheetEditorService {
+export class SpreadsheetService {
+  constructor (
+    private spreadsheetReaderService: SpreadsheetReaderService,
+    private spreadsheetEditorService: SpreadsheetEditorService
+  ) { }
+
+  public get instance(): ISpreadsheetService {
+    if (this.spreadsheetEditorService.isLoggedIn()) return this.spreadsheetEditorService;
+    else return this.spreadsheetReaderService;
+  }
+
+  public async login(): Promise<void> {
+      await this.spreadsheetEditorService.login();
+  }
+
+  public isReadOnly() {
+    return this.spreadsheetEditorService.isLoggedIn();
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SpreadsheetReaderService implements ISpreadsheetService {
+  constructor(
+    private httpClient: HttpClient
+  ) { }
+
+  private buildGetStudentNamesUrl(): string {
+    return `http://${getBackendUrl()}/list_students`;
+  }
+
+  private buildGetStudentUrl(studentName: string): string {
+    return `http://${getBackendUrl()}/student?name=${studentName}`;
+  }
+
+  async getStudentNames(): Promise<Observable<string[]>> {
+    return this.httpClient
+      .get(
+        this.buildGetStudentNamesUrl()
+      )
+      .pipe(
+        map((response: any) => response.students)
+      )
+  }
+
+  createStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]> {
+    throw new UnauthorizedOperationError()
+  }
+
+  async getStudent(studentName: string): Promise<Observable<Student>> {
+    return this.httpClient
+    .get(
+      this.buildGetStudentUrl(studentName)
+    )
+    .pipe(
+      map((response: any): Student => {
+        response.notes.forEach((note: Note) =>  note.date = moment(note.date).toDate());
+
+        return response;
+      })
+    )
+  }
+
+  updateStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]> {
+    throw new UnauthorizedOperationError()
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SpreadsheetEditorService implements ISpreadsheetService {
   private readonly SPREADSHEET_ID;
   private accessToken: string | null = null;
   private authenticatedSubject: Subject<void> = new Subject();
@@ -80,7 +184,7 @@ export class SpreadsheetEditorService {
           return false;
       }
       
-      return false;
+      return true;
   }
 
   private async ensureAccessToken() {
@@ -124,7 +228,7 @@ export class SpreadsheetEditorService {
       )
   }
 
-  async writeNewStudent(student: Student) {
+  async createStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]> {
     await this.ensureAccessToken();
 
     const studentMetadataWrite = this.httpClient
@@ -142,7 +246,7 @@ export class SpreadsheetEditorService {
     return Promise.all([studentMetadataWrite, notesWrite]);
   }
 
-  async getAllStudents(): Promise<Observable<string[]>> {
+  async getStudentNames(): Promise<Observable<string[]>> {
     await this.ensureAccessToken();
 
     return this.httpClient
@@ -208,7 +312,7 @@ export class SpreadsheetEditorService {
       )
   }
 
-  async updateStudent(student: Student) {
+  async updateStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]> {
     await this.ensureAccessToken();
 
     const updates = [];
@@ -251,6 +355,13 @@ export class SpreadsheetEditorService {
 
     const newNotesRequest = this.writeNewNotes(student.name, newNotes)
     return Promise.all([updateRequest, newNotesRequest]);
+  }
+}
+
+export class UnauthorizedOperationError extends Error {
+  constructor() {
+    super("Unauthorized operation");
+    this.name = "UnauthorizedOperationError";
   }
 }
 

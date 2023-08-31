@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NoStudentExistsError, SpreadsheetEditorService } from '../spreadsheet-editor.service';
+import { NoStudentExistsError, SpreadsheetService } from '../spreadsheet.service';
 import { Note, Student } from 'src/types/student';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -17,14 +17,14 @@ export class StudentNotesComponent implements OnInit {
     failed: boolean = false;
 
     constructor(
-        public spreadsheetEditor: SpreadsheetEditorService,
+        public spreadsheetService: SpreadsheetService,
         private route: ActivatedRoute,
         private matDialog: MatDialog
     ) { }
 
     async ngOnInit(): Promise<void> {
         this.route.queryParams.subscribe(async (params) => {
-            const observable = await this.spreadsheetEditor.getStudent(params['student']);
+            const observable = await this.spreadsheetService.instance.getStudent(params['student']);
             observable.subscribe({
                 next: student => {
                     this.student = student;

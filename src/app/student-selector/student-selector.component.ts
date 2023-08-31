@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { SpreadsheetEditorService } from '../spreadsheet-editor.service';
+import { FormControl } from '@angular/forms';
+import { SpreadsheetService } from '../spreadsheet.service';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ export class StudentSelectorComponent implements OnInit {
     loading: boolean = true;
 
     constructor(
-        public spreadsheetEditor: SpreadsheetEditorService,
+        public spreadsheetService: SpreadsheetService,
         private matDialog: MatDialog,
         private router: Router
     ) {
@@ -30,7 +30,7 @@ export class StudentSelectorComponent implements OnInit {
     }
 
     async ngOnInit(): Promise<void> {
-        const studentNameObservable = await this.spreadsheetEditor.getAllStudents();
+        const studentNameObservable = await this.spreadsheetService.instance.getStudentNames();
         studentNameObservable.subscribe(names => {
             this.studentNames = names;
         });

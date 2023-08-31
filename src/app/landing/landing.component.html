@@ -1,6 +1,6 @@
 <div class="landing-container">
     <div class="landing-header-container">
-        <div class="landing-login-button" *ngIf="!spreadsheetEditor.isLoggedIn()">
+        <div class="landing-login-button" *ngIf="!spreadsheetService.isReadOnly()">
             <button mat-button color="button-accent" (click)="onClickLogin()">Login</button>
         </div>
         <div class="landing-header">

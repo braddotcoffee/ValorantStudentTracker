@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Note, Student } from 'src/types/student';
-import { SpreadsheetEditorService } from '../spreadsheet-editor.service';
+import { SpreadsheetService } from '../spreadsheet.service';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -16,7 +16,7 @@ export class StudentNoteEditComponent implements OnInit {
     note: Note;
     
     constructor(
-        private spreadsheetEditor: SpreadsheetEditorService,
+        private spreadsheetService: SpreadsheetService,
         public fb: FormBuilder,
         public dialogRef: MatDialogRef<StudentNoteEditComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
@@ -39,7 +39,7 @@ export class StudentNoteEditComponent implements OnInit {
         this.note.content = this.editNoteForm.value['note'];
         this.note.status = "UPDATED";
 
-        const obs = await this.spreadsheetEditor.updateStudent(this.student);
+        const obs = await this.spreadsheetService.instance.updateStudent(this.student);
         forkJoin(obs).subscribe(_ => { });
     }
 }
