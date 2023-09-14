@@ -1,5 +1,6 @@
 .student-selector-container {
     padding: 16px;
+    width: 100%;
 }
 
 .student-selector-load {
@@ -21,5 +22,5 @@
 }
 
 .student-selector-container .mat-form-field {
-    min-width: 280px;
+    min-width: 100%;
 }

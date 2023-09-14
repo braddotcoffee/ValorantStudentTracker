@@ -4,7 +4,7 @@ import { SpreadsheetService } from '../spreadsheet.service';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { StudentCreateComponent } from '../student-create/student-create.component';
+import { StudentDialogComponent } from '../student-dialog/student-dialog.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
@@ -51,7 +51,8 @@ export class StudentSelectorComponent implements OnInit {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.minWidth = "520px"
         dialogConfig.width = "40%";
+        dialogConfig.data = { };
 
-        this.matDialog.open(StudentCreateComponent, dialogConfig);
+        this.matDialog.open(StudentDialogComponent, dialogConfig);
     }
 }

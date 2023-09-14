@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SpreadsheetService } from '../spreadsheet.service';
 
 @Component({
     selector: 'app-landing',
@@ -7,13 +6,11 @@ import { SpreadsheetService } from '../spreadsheet.service';
     styleUrls: ['./landing.component.scss']
 })
 export class StudentLandingComponent implements OnInit {
-    constructor(
-        public spreadsheetService: SpreadsheetService,
-    ) { }
+    static readonly MIN_RR_GAINED_VALUE = 10000;
+    static readonly MAX_RR_GAINED_VALUE = 500000;
+    rrGainedValue: number = 10000;
 
-    async ngOnInit(): Promise<void> { }
-
-    async onClickLogin() {
-        await this.spreadsheetService.login();
+    async ngOnInit(): Promise<void> {
+        this.rrGainedValue = Math.floor(Math.random() * (StudentLandingComponent.MAX_RR_GAINED_VALUE - StudentLandingComponent.MIN_RR_GAINED_VALUE + 1) + StudentLandingComponent.MIN_RR_GAINED_VALUE);
     }
 }

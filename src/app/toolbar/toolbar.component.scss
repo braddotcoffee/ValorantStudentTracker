@@ -1,7 +1,28 @@
 .toolbar {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     background-color: var(--accent);
     color: var(--primary);
+}
+
+.toolbar-title {
+    display: flex;
+    justify-content: flex-start;
+    color: var(--primary);
+}
+
+.left, 
+.right {
+    min-width: 20%;
+}
+
+.right {
+    display: flex;
+    justify-content: right;
+}
+
+.center {
+    width: 40%
 }

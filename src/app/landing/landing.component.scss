@@ -4,6 +4,7 @@
     justify-content: center;
     align-items: center;
     gap: 64px;
+    
 }
 
 .landing-header-container {
@@ -14,50 +15,50 @@
     display: flex;
     width: 100%;
     height: 100%;
-    padding: 144px;
-    background-color: var(--primary-850);
+    padding: 192px;
+    background: url('../../assets/images/sticker-bomb.png');
+    box-shadow: inset 0 0 0 1000px rgba(var(--accent-100-rgb), 0.9);
     border-bottom: 4px solid var(--accent);
-    border-top: 4px solid var(--accent);
 }
 
-.landing-login-button {
-    display: flex;
-    justify-content: flex-end;
-    margin: 12px;
+.landing-primary-text {
+    font-size: 96px;
+    font-weight: 900;
+    color: var(--primary);
 }
 
 .landing-secondary-text {
     font-size: 48px;
+    color: var(--primary-850);
+}
+
+.cards {
+    display: flex;
+    flex-direction: row;
+    gap: 64px
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 300px;
+    padding: 40px;
+    gap: 16px;
+    background-color: var(--primary-800);
+    border-top: 2px solid var(--accent);
+}
+
+.card-title {
+    font-size: 32px;
+    font-weight: 400;
+    padding-bottom: 16px;
     color: var(--accent);
 }
 
-.landing-student-selector {
-    font-size: 24px;
-    min-width: 280px;
-    padding: 64px;
-    color: var(--black);
-}
-
-::ng-deep .landing-container .mat-form-field-underline {
-    background-color: var(--white)!important;
-}
-
-::ng-deep .landing-container .mat-form-field-ripple {
-    background-color: var(--accent)!important;
-}
-
-::ng-deep .landing-container .mat-form-field-infix {
-    color: var(--white)!important;
-}
-
-::ng-deep .landing-container .mat-input-element {
-    caret-color: var(--white)!important;
-}
-
-::ng-deep .landing-container .mat-form-field .mat-form-field-label {
-    color: var(--white)!important;
-}
-
-::ng-deep .landing-container .mat-form-field.mat-focused .mat-form-field-label {
-    color: var(--accent)!important;
+.card-content {
+    font-size: 48px;
+    font-weight: 400;
+    color: var(--white);
 }

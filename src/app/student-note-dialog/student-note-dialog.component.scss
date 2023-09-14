@@ -1,0 +1,26 @@
+.student-create-note-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.student-create-note-title {
+    font-size: 24px;
+    color: var(--accent);
+}
+
+.student-create-note-footer {
+    justify-self: right;
+    align-self: center;
+}
+
+.student-create-note-container .mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.student-create-note-container .mat-dialog-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}

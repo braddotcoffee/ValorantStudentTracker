@@ -19,6 +19,20 @@
     border-bottom: 4px solid var(--accent);
 }
 
+.view-only-status-container {
+    display: flex;
+    justify-content: center;
+}
+
+.view-only-status {
+    position: relative;
+    top: -20px;
+    font-size: 20px;
+    background-color: var(--complementary-100);
+    padding: 10px;
+    border-radius: 20px;
+}
+
 .student-name {
     font-size: 48px;
     color: var(--primary);
@@ -32,14 +46,13 @@
 .student-data-container {
     display:flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 32px 20%;
-    gap: 16px;
+    padding: 64px;
+    gap: 64px;
 }
-
+.right-column,
 .cards {
     min-width: 280px;
+    width: 20%;
     flex-direction: column;
     gap: 16px;
 }
@@ -52,9 +65,8 @@
     padding: 16px;
     gap: 16px;
     margin-bottom: 16px;
-    border-radius: 8px;
     background-color: var(--primary-800);
-    border: 2px solid var(--accent);
+    border-top: 2px solid var(--accent);
 }
 
 .card-title {
@@ -87,21 +99,17 @@
 .student-notes {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 60%;
+}
+
+.student-buttons {
+    display: flex;
     gap: 16px;
 }
 
-.student-notes-header {
+.student-actions {
     display: flex;
-    justify-content: space-between;
-}
-
-.student-notes-title {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-size: 24px;
-    color: var(--white);
+    flex-direction: row-reverse;
 }
 
 .student-notes-content {

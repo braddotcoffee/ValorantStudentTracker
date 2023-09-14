@@ -1,14 +1,14 @@
 <div class="student-create-note-container">
-    <div class="student-create-note-title">New Note</div>
+    <div class="student-create-note-title">{{this.note === null ? "New Note" : "Edit Note"}}</div>
 
-    <mat-dialog-content [formGroup]="createNoteForm">
-        <mat-form-field>
+    <mat-dialog-content [formGroup]="noteForm">
+        <mat-form-field color="accent">
             <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="10" formControlName="note"></textarea>
         </mat-form-field>
     </mat-dialog-content>
 
     <mat-dialog-actions>
-        <button mat-button mat-dialog-close type="submit" [disabled]="!createNoteForm.valid" color="button-accent" (click)="onClickCreate()">Create</button>
+        <button mat-button mat-dialog-close type="submit" [disabled]="!noteForm.valid" color="button-accent" (click)="onClickSubmit()">Submit</button>
         <button mat-button mat-dialog-close color="button-warn">Close</button>
     </mat-dialog-actions>
 </div>

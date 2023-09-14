@@ -1,0 +1,40 @@
+.student-dialog-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.student-dialog-load {
+    display: flex;
+    justify-content: center;
+}
+
+.student-dialog-title {
+    font-size: 24px;
+    margin-bottom: 24px;
+    color: var(--accent);
+}
+
+.student-dialog-container .mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.student-dialog-container .mat-dialog-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.mat-option:hover, 
+.mat-option.mat-selected:hover, 
+.mat-option.mat-selected.mat-active:hover {
+    color: var(--black);
+    background-color: var(--accent);
+    transition-duration: .25s;
+}
+
+.mat-option.mat-selected.mat-active {
+    color: var(--white);
+    background-color: var(--primary-800);
+}

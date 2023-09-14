@@ -12,6 +12,10 @@
     <div class="student-header">
         <div class="student-name">{{student.name}}</div>
     </div>
+    
+    <div class="view-only-status-container" *ngIf="spreadsheetService.isReadOnly()">
+        <span class="view-only-status">View Only</span>
+    </div>
 
     <div class="student-data-container">
         <div class="cards">
@@ -22,32 +26,37 @@
                     <div class="starting-rank">{{student.startingRank}}</div>
                 </div>
             </div>
-            <a href="{{student.tracker}}" *ngIf="student.tracker">
+            <a href="{{student.tracker}}" target="_blank" *ngIf="student.tracker">
                 <div class="trackergg-card card">
                     <div class="card-title">Visit Tracker</div>
                 </div>
             </a>
+            <div class="student-actions-card card">
+                <div class="card-title">Manage Student</div>
+                <div class="student-buttons">
+                    <button mat-button color="button-accent" (click)="onClickEditStudent(student)">Edit Student</button>
+                    <button mat-button color="button-accent" (click)="onClickAddNote()">Add Note</button>
+                </div>
+            </div>
         </div>
 
         <div class="student-notes">
-            <div class="student-notes-header">
-                <div class="student-notes-title">Notes</div>
-                <div class="student-add-note-button" *ngIf="spreadsheetService.isReadOnly()">
-                    <button mat-button color="button-accent" (click)="onClickAdd()">+</button>
-                </div>
-            </div>
             <div class="student-notes-content" *ngIf="student.notes.length == 0">Student has no notes</div>
             <mat-accordion>
-                <mat-expansion-panel *ngFor="let note of student.notes; last as isLast" [expanded]="isLast">
+                <mat-expansion-panel *ngFor="let note of sortNotes(student.notes); first as isFirst" [expanded]="isFirst">
                     <mat-expansion-panel-header>
                         <mat-panel-title>{{note.date.toLocaleDateString()}}</mat-panel-title>
                     </mat-expansion-panel-header>
                     <div class="student-note-content">{{note.content}}</div>
-                    <mat-action-row *ngIf="spreadsheetService.isReadOnly()">
-                        <button mat-button color="button-accent" (click)="onClickEdit(note)">Edit</button>
+                    <mat-action-row *ngIf="!spreadsheetService.isReadOnly()">
+                        <button mat-button color="button-accent" (click)="onClickEditNote(note)">Edit</button>
                     </mat-action-row>
                 </mat-expansion-panel>
             </mat-accordion>
+        </div>
+
+        <div class="right-column">
+
         </div>
     </div>
 </div>

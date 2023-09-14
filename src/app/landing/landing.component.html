@@ -1,13 +1,37 @@
 <div class="landing-container">
     <div class="landing-header-container">
-        <div class="landing-login-button" *ngIf="!spreadsheetService.isReadOnly()">
-            <button mat-button color="button-accent" (click)="onClickLogin()">Login</button>
-        </div>
         <div class="landing-header">
-            <img id="landing-primary-text" src="assets/images/footer-woohoojin.png"/>
+            <div class="landing-primary-text">WOOHOOJIN</div>
             <div class="landing-secondary-text">Valorant Student Tracker</div>
         </div>
     </div>
-    
-    <app-student-selector class="landing-student-selector"></app-student-selector>
+
+    <div class="cards">
+        <div class="card">
+            <div class="card-title">
+                Students
+            </div>
+            <div class="card-content">
+                888
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                Notes Taken
+            </div>
+            <div class="card-content">
+                1391
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                RR Gained
+            </div>
+            <div class="card-content">
+                {{ rrGainedValue }}+
+            </div>
+        </div>
+    </div>
 </div>

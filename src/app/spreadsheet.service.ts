@@ -48,7 +48,11 @@ export class SpreadsheetService {
   ) { }
 
   public get instance(): ISpreadsheetService {
-    if (this.spreadsheetEditorService.isLoggedIn()) return this.spreadsheetEditorService;
+    if (this.spreadsheetEditorService.hasLoggedIn()) {
+      if (!this.spreadsheetEditorService.isLoggedIn()) this.spreadsheetEditorService.login();
+      return this.spreadsheetEditorService;
+    }
+    
     else return this.spreadsheetReaderService;
   }
 
@@ -57,7 +61,7 @@ export class SpreadsheetService {
   }
 
   public isReadOnly() {
-    return this.spreadsheetEditorService.isLoggedIn();
+    return !this.spreadsheetEditorService.isLoggedIn();
   }
 }
 
@@ -70,11 +74,11 @@ export class SpreadsheetReaderService implements ISpreadsheetService {
   ) { }
 
   private buildGetStudentNamesUrl(): string {
-    return `http://${getBackendUrl()}/list_students`;
+    return `${getBackendUrl()}/list_students`;
   }
 
   private buildGetStudentUrl(studentName: string): string {
-    return `http://${getBackendUrl()}/student?name=${studentName}`;
+    return `${getBackendUrl()}/student?name=${studentName}`;
   }
 
   async getStudentNames(): Promise<Observable<string[]>> {
@@ -92,6 +96,7 @@ export class SpreadsheetReaderService implements ISpreadsheetService {
   }
 
   async getStudent(studentName: string): Promise<Observable<Student>> {
+    console.log("READER: GET STUDENT");
     return this.httpClient
     .get(
       this.buildGetStudentUrl(studentName)
@@ -187,6 +192,10 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
       return true;
   }
 
+  public hasLoggedIn(): boolean {
+    return this.accessToken !== null;
+  }
+
   private async ensureAccessToken() {
     const timeUntilExpiration = this.expirationTime - Date.now();
     const promise = firstValueFrom(this.authenticatedSubject);
@@ -260,6 +269,7 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
   }
 
   async getStudent(studentName: string): Promise<Observable<Student>> {
+    console.log("EDITOR: GET STUDENT");
     await this.ensureAccessToken();
 
     return this.httpClient
@@ -339,6 +349,7 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
           this.buildNote(student.name, note)
         ]
       })
+      
     });
 
     const updateRequest = this.httpClient

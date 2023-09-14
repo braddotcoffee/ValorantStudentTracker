@@ -23,6 +23,7 @@ body {
 :root {
     --primary: var(--primary-900);
     --accent: var(--accent-400);
+    --complementary: var(--complementary-400);
     --warn: var(--warn-600);
     --success: var(--success-500);
     --white: #ffffff;
@@ -42,6 +43,7 @@ body {
     
     --accent-50: #fff8df;
     --accent-100: #ffebaf;
+    --accent-100-rgb: 255, 235, 175;
     --accent-200: #ffdf7b;
     --accent-300: #ffd342;
     --accent-400: #FFC700;
@@ -50,6 +52,17 @@ body {
     --accent-700: #ff9c00;
     --accent-800: #ff8a00;
     --accent-900: #ff6800;
+
+    --complementary-50: #e9e8ff;
+    --complementary-100: #c7c6ff;
+    --complementary-200: #9ea1ff;
+    --complementary-300: #707bff;
+    --complementary-400: #485aff;
+    --complementary-500: #0037ff;
+    --complementary-600: #002df3;
+    --complementary-700: #001ee6;
+    --complementary-800: #0006dc;
+    --complementary-900: #0000cd;
 
     --warn-50: #fee9e6;
     --warn-100: #ffcbb8;
@@ -154,7 +167,7 @@ $warn-palette: (
 
 $my-primary: mat.define-palette($primary-palette, 900);
 $my-accent: mat.define-palette($accent-palette, 400, 100, 700);
-$my-warn: mat.define-palette($warn-palette, 600);
+$my-warn: mat.define-palette($warn-palette, 500);
 $my-theme: mat.define-dark-theme((
     color: (
         primary: $my-primary,
@@ -162,7 +175,7 @@ $my-theme: mat.define-dark-theme((
         warn: $my-warn,
     ),
     typography: mat.define-typography-config(
-        $font-family: serif,
+        $font-family: Inter,
     )
 ));
 

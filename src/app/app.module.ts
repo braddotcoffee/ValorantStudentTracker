@@ -24,18 +24,18 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { StudentNotesComponent } from './student-notes/student-notes.component';
 import { StudentLandingComponent } from './landing/landing.component';
-import { StudentNoteCreateComponent } from './student-note-create/student-note-create.component';
-import { StudentNoteEditComponent } from './student-note-edit/student-note-edit.component';
-import { StudentCreateComponent } from './student-create/student-create.component';
+import { StudentNoteDialogComponent } from './student-note-dialog/student-note-dialog.component';
+import { StudentDialogComponent } from './student-dialog/student-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
+import { LoginButtonComponent } from './login-button/login-button.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    StudentCreateComponent,
-    StudentNoteCreateComponent,
-    StudentNoteEditComponent,
+    LoginButtonComponent,
+    StudentDialogComponent,
+    StudentNoteDialogComponent,
     StudentNotesComponent,
     StudentSelectorComponent,
     StudentLandingComponent,
