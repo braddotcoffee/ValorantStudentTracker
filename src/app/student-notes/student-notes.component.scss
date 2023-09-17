@@ -24,10 +24,15 @@
     justify-content: center;
 }
 
+.view-only-image {
+    display: inline;
+    height: 24px;
+}
+
 .view-only-status {
     position: relative;
     top: -20px;
-    font-size: 20px;
+    font-size: 18px;
     background-color: var(--complementary-100);
     padding: 10px;
     border-radius: 20px;
@@ -35,6 +40,7 @@
 
 .student-name {
     font-size: 48px;
+    font-weight: 500;
     color: var(--primary);
 }
 

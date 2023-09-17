@@ -14,7 +14,10 @@
     </div>
     
     <div class="view-only-status-container" *ngIf="spreadsheetService.isReadOnly()">
-        <span class="view-only-status">View Only</span>
+        <span class="view-only-status">
+            <img class="view-only-image" src='assets/images/icons/view-only.png'/>
+            View Only
+        </span>
     </div>
 
     <div class="student-data-container">

@@ -42,8 +42,6 @@ export class StudentNoteDialogComponent implements OnInit {
             return;
         }
 
-        console.log(`${this.noteForm.get('currentrank')?.value} and ${this.noteForm.get('rr')?.value}RR`);
-
         if (this.note) {
             this.note.currentRank = this.noteForm.get('currentrank')?.value;
             this.note.currentRR = this.noteForm.get('rr')?.value;
@@ -58,7 +56,7 @@ export class StudentNoteDialogComponent implements OnInit {
                 status: "NEW",
             });
         }
-        
+
         this.loading = true;
         const obs = await this.spreadsheetService.instance.updateStudent(this.student);
         forkJoin(obs).subscribe(_ => {
