@@ -48,9 +48,11 @@
             <mat-accordion>
                 <mat-expansion-panel *ngFor="let note of sortNotes(student.notes); first as isFirst" [expanded]="isFirst">
                     <mat-expansion-panel-header>
-                        <mat-panel-title>{{note.date.toLocaleDateString()}}</mat-panel-title>
+                        <mat-panel-title>{{note.date.toLocaleDateString()}}
+                            <ng-container *ngIf="note.currentRank"> • {{ getRankText(note.currentRank, note.currentRR) }}</ng-container>
+                        </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <div class="student-note-rank" *ngIf="note.currentRank">{{ getRankText(note.currentRank, note.currentRR) }}</div>
+                    
                     <div class="student-note-content">{{note.content}}</div>
                     <mat-action-row *ngIf="!spreadsheetService.isReadOnly()">
                         <button mat-button color="button-accent" (click)="onClickEditNote(note)">Edit</button>
