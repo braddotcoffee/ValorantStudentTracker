@@ -308,7 +308,7 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
                 content: row[1],
                 date: new Date(row[2]),
                 currentRank: row[3],
-                currentRR: Number(row[4]),
+                currentRR: row[4] ? Number(row[4]) : undefined,
                 status: "UNCHANGED",
                 row: i + 2
               });
@@ -319,7 +319,7 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
             name: studentMetadata[0],
             tracker: studentMetadata[1],
             startingRank: studentMetadata[2],
-            startingRR: Number(studentMetadata[3]),
+            startingRR: studentMetadata[3] ? Number(studentMetadata[3]) : undefined,
             status: 'UNCHANGED',
             row: metadataRow,
             notes: studentNotes
