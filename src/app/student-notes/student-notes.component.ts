@@ -37,7 +37,7 @@ export class StudentNotesComponent implements OnInit {
                     if (err instanceof NoStudentExistsError) {
                         this.failed = true;
                     } else {
-                        console.log(`Unexpected exception ${err}`);
+                        console.log(`Unexpected exception in student notes init: ${err}`);
                     }
                 }
             });
@@ -82,8 +82,8 @@ export class StudentNotesComponent implements OnInit {
         return `assets/images/rank-icons/${this.student?.startingRank.replace(/ /g,"_")}_Rank.png`
     }
 
-    getRankText(): string {
-        return this.student ? this.student.startingRank + (this.student.startingRR ? ` ${this.student.startingRR}RR` : ""): "Unknown";
+    getRankText(rank: string, rr: number | undefined): string {
+        return `${rank} ${rr ? rr + "RR" : ""}`
     }
 
     sortNotes(notes: Note[]): Note[] {

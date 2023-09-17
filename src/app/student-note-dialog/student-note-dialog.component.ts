@@ -59,9 +59,14 @@ export class StudentNoteDialogComponent implements OnInit {
 
         this.loading = true;
         const obs = await this.spreadsheetService.instance.updateStudent(this.student);
-        forkJoin(obs).subscribe(_ => {
-            this.loading = false;
-            this.dialogRef.close();
+        forkJoin(obs).subscribe({
+            next: _ => {
+                this.loading = false;
+                this.dialogRef.close();
+            },
+            error: err => {
+                console.log(`Unexpected exception in student note dialog: ${err}`);
+            }
         });
     }
 }

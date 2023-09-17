@@ -31,8 +31,13 @@ export class StudentSelectorComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
         const studentNameObservable = await this.spreadsheetService.instance.getStudentNames();
-        studentNameObservable.subscribe(names => {
-            this.studentNames = names;
+        studentNameObservable.subscribe({
+            next: names => {
+                this.studentNames = names;
+            },
+            error: err => {
+                console.log(`Unexpected exception in student selector: ${err}`);
+            }
         });
       
         this.loading = false;

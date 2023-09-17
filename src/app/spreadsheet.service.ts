@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { firstValueFrom, map, Observable, Subject } from 'rxjs';
+import { firstValueFrom, map, Observable, Subject, timeout } from 'rxjs';
 import { getBackendUrl, getGoogleClientID, getSpreadsheetID } from 'src/main';
 import { Note, Student } from 'src/types/student';
 
@@ -330,6 +330,15 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
 
   async updateStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]> {
     await this.ensureAccessToken();
+
+    // The row may not be present in the student object if it was fetched in the read-only view.
+    // We need the row to apply the edit so... lets get it.
+    if (!student.row) {
+      const editModeStudent = await firstValueFrom((await this.getStudent(student.name)).pipe(timeout(10000)));
+      
+      student.row = editModeStudent.row;
+      student.notes = editModeStudent.notes;
+    }
 
     const updates = [];
     const newNotes: Note[] = [];

@@ -26,7 +26,7 @@
                 <div class="card-title">Starting Rank</div>
                 <div class="student-rank">
                     <img class="rank-image" src='{{ getRankImagePath() }}'/>
-                    <div class="starting-rank">{{ getRankText() }}</div>
+                    <div class="starting-rank">{{ getRankText(student.startingRank, student.startingRR) }}</div>
                 </div>
             </div>
             <a href="{{student.tracker}}" target="_blank" *ngIf="student.tracker">
@@ -50,7 +50,7 @@
                     <mat-expansion-panel-header>
                         <mat-panel-title>{{note.date.toLocaleDateString()}}</mat-panel-title>
                     </mat-expansion-panel-header>
-                    <div class="student-note-rank" *ngIf="note.currentRank">{{note.currentRank}}</div>
+                    <div class="student-note-rank" *ngIf="note.currentRank">{{ getRankText(note.currentRank, note.currentRR) }}</div>
                     <div class="student-note-content">{{note.content}}</div>
                     <mat-action-row *ngIf="!spreadsheetService.isReadOnly()">
                         <button mat-button color="button-accent" (click)="onClickEditNote(note)">Edit</button>

@@ -52,9 +52,14 @@ export class StudentDialogComponent implements OnInit {
             this.student.status = "UPDATED";
 
             const obs = await this.spreadsheetService.instance.updateStudent(this.student);
-            forkJoin(obs).subscribe(_ => {
-                this.loading = false;
-                this.dialogRef.close();
+            forkJoin(obs).subscribe({
+                next: _ => {
+                    this.loading = false;
+                    this.dialogRef.close();
+                },
+                error: err => {
+                    console.log(`Unexpected exception in student dialog: ${err}`);
+                }
             });
         } else {
             const student: Student = {
@@ -67,10 +72,15 @@ export class StudentDialogComponent implements OnInit {
             };
 
             const obs = await this.spreadsheetService.instance.createStudent(student)
-            forkJoin(obs).subscribe(_ => {
-                this.loading = false;
-                this.dialogRef.close();
-                this.router.navigate(['notes'], { queryParams: { student: student.name } });
+            forkJoin(obs).subscribe({
+                next: _ => {
+                    this.loading = false;
+                    this.dialogRef.close();
+                    this.router.navigate(['notes'], { queryParams: { student: student.name } });
+                },
+                error: err => {
+                    console.log(`Unexpected exception in student dialog: ${err}`);
+                }
             });
         }
     }
