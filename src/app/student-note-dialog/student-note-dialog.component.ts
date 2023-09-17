@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Note, Student } from 'src/types/student';
 import { SpreadsheetService } from '../spreadsheet.service';
 import { forkJoin } from 'rxjs';
@@ -11,6 +11,7 @@ import { forkJoin } from 'rxjs';
     styleUrls: ['./student-note-dialog.component.scss'],
 })
 export class StudentNoteDialogComponent implements OnInit {
+    loading: boolean = false;
     noteForm: FormGroup;
     student: Student;
     note: Note | null = null;
@@ -18,6 +19,7 @@ export class StudentNoteDialogComponent implements OnInit {
     constructor(
         private spreadsheetService: SpreadsheetService,
         private formBuilder: FormBuilder,
+        private dialogRef: MatDialogRef<StudentNoteDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any
     ) {
         if (data.note) {
@@ -25,7 +27,9 @@ export class StudentNoteDialogComponent implements OnInit {
         }
         
         this.noteForm = this.formBuilder.group({
-            note: [data.note?.content, [Validators.required]]
+            currentrank: [data.note?.currentRank, [Validators.required]],
+            rr: [data.note?.currentRR],
+            note: [data.note?.content, [Validators.required]],
         });
 
         this.student = this.data.student;
@@ -38,13 +42,28 @@ export class StudentNoteDialogComponent implements OnInit {
             return;
         }
 
-        this.student.notes.push({
-            content: this.noteForm.get('note')?.value,
-            date: this.note ? this.note.date : new Date(),
-            status: this.note ? "UPDATED" : "NEW"
-        });
+        console.log(`${this.noteForm.get('currentrank')?.value} and ${this.noteForm.get('rr')?.value}RR`);
 
+        if (this.note) {
+            this.note.currentRank = this.noteForm.get('currentrank')?.value;
+            this.note.currentRR = this.noteForm.get('rr')?.value;
+            this.note.content = this.noteForm.get('note')?.value;
+            this.note.status = "UPDATED";
+        } else {
+            this.student.notes.push({
+                content: this.noteForm.get('note')?.value,
+                date: new Date(),
+                currentRank: this.noteForm.get('currentrank')?.value,
+                currentRR: this.noteForm.get('rr')?.value,
+                status: "NEW",
+            });
+        }
+        
+        this.loading = true;
         const obs = await this.spreadsheetService.instance.updateStudent(this.student);
-        forkJoin(obs).subscribe(_ => { });
+        forkJoin(obs).subscribe(_ => {
+            this.loading = false;
+            this.dialogRef.close();
+        });
     }
 }

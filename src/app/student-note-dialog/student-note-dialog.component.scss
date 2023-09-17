@@ -4,8 +4,14 @@
     width: 100%;
 }
 
+.student-note-dialog-load {
+    display: flex;
+    justify-content: center;
+}
+
 .student-create-note-title {
     font-size: 24px;
+    margin-bottom: 24px;
     color: var(--accent);
 }
 

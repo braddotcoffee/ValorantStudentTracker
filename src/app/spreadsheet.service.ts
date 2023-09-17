@@ -170,7 +170,7 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
     return "https://sheets.googleapis.com/v4/spreadsheets/"
       + this.SPREADSHEET_ID
       + "/values:batchGet"
-      + "?ranges=RawStudents!A2:C&ranges=RawNotes!A2:C"
+      + "?ranges=RawStudents!A2:D&ranges=RawNotes!A2:E"
   }
 
   private buildUpdateStudentUrl(): string {
@@ -211,7 +211,8 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
     return [
       student.name,
       student.tracker,
-      student.startingRank
+      student.startingRank,
+      student.startingRR
     ]
   }
 
@@ -219,7 +220,9 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
     return [
       studentName,
       note.content,
-      note.date.toLocaleDateString("en-US")
+      note.date.toLocaleDateString("en-US"),
+      note.currentRank,
+      note.currentRR
     ]
   }
 
@@ -304,6 +307,8 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
               studentNotes.push({
                 content: row[1],
                 date: new Date(row[2]),
+                currentRank: row[3],
+                currentRR: Number(row[4]),
                 status: "UNCHANGED",
                 row: i + 2
               });
@@ -314,6 +319,7 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
             name: studentMetadata[0],
             tracker: studentMetadata[1],
             startingRank: studentMetadata[2],
+            startingRR: Number(studentMetadata[3]),
             status: 'UNCHANGED',
             row: metadataRow,
             notes: studentNotes
@@ -330,7 +336,7 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
     if (student.status === "UPDATED") {
       updates.push({
         majorDimension: "ROWS",
-        range: `RawStudents!A${student.row}:C`,
+        range: `RawStudents!A${student.row}:D`,
         values: [
           this.buildStudentMetadata(student)
         ]
@@ -344,13 +350,16 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
       }
       updates.push({
         majorDimension: "ROWS",
-        range: `RawNotes!A${note.row}:C`,
+        range: `RawNotes!A${note.row}:E`,
         values: [
           this.buildNote(student.name, note)
         ]
       })
       
     });
+
+    console.log(updates);
+    console.log(newNotes);
 
     const updateRequest = this.httpClient
       .post(

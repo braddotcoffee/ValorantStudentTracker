@@ -79,19 +79,11 @@ export class StudentNotesComponent implements OnInit {
     }
 
     getRankImagePath(): string {
-        // Some users have their RR in varying formats.
-        // This way we make sure to always get the correct rank icon
-        if (this.student?.startingRank.startsWith("Radiant")) {
-            return "assets/images/rank-icons/Radiant_Rank.png"
-        } else if (this.student?.startingRank.startsWith("Immortal 1")) {
-            return "assets/images/rank-icons/Immortal_1_Rank.png"
-        } else if (this.student?.startingRank.startsWith("Immortal 2")) {
-            return "assets/images/rank-icons/Immortal_2_Rank.png"
-        } else if (this.student?.startingRank.startsWith("Immortal 3")) {
-            return "assets/images/rank-icons/Immortal_3_Rank.png"
-        }
-
         return `assets/images/rank-icons/${this.student?.startingRank.replace(/ /g,"_")}_Rank.png`
+    }
+
+    getRankText(): string {
+        return this.student ? this.student.startingRank + (this.student.startingRR ? ` ${this.student.startingRR}RR` : ""): "Unknown";
     }
 
     sortNotes(notes: Note[]): Note[] {

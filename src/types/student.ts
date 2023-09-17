@@ -4,6 +4,7 @@ export interface Student {
     name: string;
     tracker: string;
     startingRank: string;
+    startingRR?: number;
     notes: Note[];
     status: Status;
     row?: number;
@@ -12,6 +13,8 @@ export interface Student {
 export interface Note {
     content: string;
     date: Date;
+    currentRank: string;
+    currentRR?: number;
     status: Status;
     row?: number;
 }

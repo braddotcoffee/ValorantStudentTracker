@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Status, Student } from 'src/types/student';
 import { SpreadsheetService } from '../spreadsheet.service';
-import { forkJoin } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -32,7 +32,7 @@ export class StudentDialogComponent implements OnInit {
             name: [data.student?.name, [Validators.required]],
             tracker: [data.student?.tracker, [Validators.required]],
             startingRank: [data.student?.startingRank, [Validators.required]],
-            rr: [data.student?.rr],
+            rr: [data.student?.startingRR],
         });
     }
 
@@ -43,28 +43,35 @@ export class StudentDialogComponent implements OnInit {
             return;
         }
         
-        var startingRank: string = this.studentForm.get('rr')?.value ?
-            startingRank = `${this.studentForm.get('startingRank')?.value} ${this.studentForm.get('rr')?.value}RR` :
-            startingRank = this.studentForm.get('startingRank')?.value;
-        
-        const student: Student = {
-            name: this.studentForm.get('name')?.value,
-            tracker: this.studentForm.get('tracker')?.value,
-            startingRank: startingRank,
-            status: this.student ? "UPDATED" : "NEW",
-            notes: [],
-        };
-
-        //TODO UPDATE this.student with new data
         this.loading = true;
-        const obs = this.student ? 
-                        await this.spreadsheetService.instance.updateStudent(this.student) :
-                        await this.spreadsheetService.instance.createStudent(student);
-                        
-        forkJoin(obs).subscribe(_ => {
-            this.loading = false;
-            this.dialogRef.close();
-            this.router.navigate(['notes'], { queryParams: { student: student.name } });
-        });
+        if (this.student) {
+            this.student.name = this.studentForm.get('name')?.value;
+            this.student.tracker = this.studentForm.get('tracker')?.value;
+            this.student.startingRank = this.studentForm.get('startingRank')?.value;
+            this.student.startingRR = this.studentForm.get('rr')?.value;
+            this.student.status = "UPDATED";
+
+            const obs = await this.spreadsheetService.instance.updateStudent(this.student);
+            forkJoin(obs).subscribe(_ => {
+                this.loading = false;
+                this.dialogRef.close();
+            });
+        } else {
+            const student: Student = {
+                name: this.studentForm.get('name')?.value,
+                tracker: this.studentForm.get('tracker')?.value,
+                startingRank: this.studentForm.get('startingRank')?.value,
+                startingRR: this.studentForm.get('rr')?.value,
+                status: "NEW",
+                notes: [],
+            };
+
+            const obs = await this.spreadsheetService.instance.createStudent(student)
+            forkJoin(obs).subscribe(_ => {
+                this.loading = false;
+                this.dialogRef.close();
+                this.router.navigate(['notes'], { queryParams: { student: student.name } });
+            });
+        }
     }
 }
