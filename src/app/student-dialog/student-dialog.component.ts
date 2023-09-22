@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Status, Student } from 'src/types/student';
 import { SpreadsheetService } from '../spreadsheet.service';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, firstValueFrom, forkJoin, timeout } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -47,6 +47,14 @@ export class StudentDialogComponent implements OnInit {
         
         this.loading = true;
         if (this.student) {
+            /** 
+             * We need the students row in order to edit it. The field may not be present if it was fetched in read-only view.
+             */
+            if (!this.student?.row) {
+                const editModeStudent = await firstValueFrom((await this.spreadsheetService.instance.getStudent(this.student.name)).pipe(timeout(10000)));
+                this.student.row = editModeStudent.row;
+            }
+
             this.student.name = this.studentForm.get('name')?.value;
             this.student.tracker = this.studentForm.get('tracker')?.value;
             this.student.startingRank = this.studentForm.get('startingRank')?.value;

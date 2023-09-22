@@ -329,15 +329,6 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
   async updateStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]> {
     await this.ensureAccessToken();
 
-    // The row may not be present in the student object if it was fetched in the read-only view.
-    // We need the row to apply the edit so... lets get it.
-    if (!student.row) {
-      const editModeStudent = await firstValueFrom((await this.getStudent(student.name)).pipe(timeout(10000)));
-      
-      student.row = editModeStudent.row;
-      student.notes = editModeStudent.notes;
-    }
-
     const updates = [];
     const newNotes: Note[] = [];
     if (student.status === "UPDATED") {
@@ -354,15 +345,15 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
       if (note.status === "NEW") {
         newNotes.push(note);
         return;
+      } else if (note.status === "UPDATED") {
+        updates.push({
+          majorDimension: "ROWS",
+          range: `RawNotes!A${note.row}:E`,
+          values: [
+            this.buildNote(student.name, note)
+          ]
+        })
       }
-      updates.push({
-        majorDimension: "ROWS",
-        range: `RawNotes!A${note.row}:E`,
-        values: [
-          this.buildNote(student.name, note)
-        ]
-      })
-      
     });
 
     const updateRequest = this.httpClient

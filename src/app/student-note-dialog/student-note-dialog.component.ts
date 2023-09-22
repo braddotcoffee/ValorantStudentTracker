@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Note, Student } from 'src/types/student';
 import { SpreadsheetService } from '../spreadsheet.service';
-import { forkJoin } from 'rxjs';
+import { firstValueFrom, forkJoin, pipe, timeout } from 'rxjs';
 
 @Component({
     selector: 'dialog-student-note',
@@ -44,6 +44,16 @@ export class StudentNoteDialogComponent implements OnInit {
         }
 
         if (this.note) {
+            /** 
+             * We need the notes row in order to edit it. The field may not be present if it was fetched in read-only view.
+             * This assumes that a student won't have two notes made on the same day, if that happens then this will BREAK.
+             */
+            if (!this.note?.row) {
+                const editModeStudent = await firstValueFrom((await this.spreadsheetService.instance.getStudent(this.student.name)).pipe(timeout(10000)));
+                const editModeNote = editModeStudent.notes.find(({ date }) => this.note?.date.toDateString() === date.toDateString());
+                this.note.row = editModeNote?.row;
+            }
+        
             this.note.currentRank = this.noteForm.get('currentrank')?.value;
             this.note.currentRR = this.noteForm.get('rr')?.value;
             this.note.content = this.noteForm.get('note')?.value;
