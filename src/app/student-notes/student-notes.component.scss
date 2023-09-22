@@ -30,19 +30,15 @@
     color: var(--primary);
 }
 
-.view-only-status-container {
-    display: flex;
-    justify-content: center;
-}
-
 .view-only-image {
     display: inline;
     height: 24px;
 }
 
 .view-only-status {
-    position: relative;
-    top: -20px;
+    position: absolute;
+    top: 256px;
+    left: calc(50% - 66px);
     font-size: 18px;
     background-color: var(--complementary-100);
     padding: 10px;
