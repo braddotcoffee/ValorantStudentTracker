@@ -96,7 +96,6 @@ export class SpreadsheetReaderService implements ISpreadsheetService {
   }
 
   async getStudent(studentName: string): Promise<Observable<Student>> {
-    console.log("READER: GET STUDENT");
     return this.httpClient
     .get(
       this.buildGetStudentUrl(studentName)
@@ -272,7 +271,6 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
   }
 
   async getStudent(studentName: string): Promise<Observable<Student>> {
-    console.log("EDITOR: GET STUDENT");
     await this.ensureAccessToken();
 
     return this.httpClient
@@ -366,9 +364,6 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
       })
       
     });
-
-    console.log(updates);
-    console.log(newNotes);
 
     const updateRequest = this.httpClient
       .post(

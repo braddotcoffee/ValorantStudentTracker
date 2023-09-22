@@ -25,16 +25,3 @@
     flex-direction: row;
     justify-content: flex-end;
 }
-
-.mat-option:hover, 
-.mat-option.mat-selected:hover, 
-.mat-option.mat-selected.mat-active:hover {
-    color: var(--black);
-    background-color: var(--accent);
-    transition-duration: .25s;
-}
-
-.mat-option.mat-selected.mat-active {
-    color: var(--white);
-    background-color: var(--primary-800);
-}

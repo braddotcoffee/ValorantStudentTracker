@@ -34,7 +34,7 @@
                     <div class="card-title">Visit Tracker</div>
                 </div>
             </a>
-            <div class="student-actions-card card">
+            <div class="student-actions-card card"  *ngIf="!spreadsheetService.isReadOnly()">
                 <div class="card-title">Manage Student</div>
                 <div class="student-buttons">
                     <button mat-button color="button-accent" (click)="onClickEditStudent(student)">Edit Student</button>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="student-notes">
-            <div class="student-notes-content" *ngIf="student.notes.length == 0">Student has no notes</div>
+            <div class="student-no-notes" *ngIf="student.notes.length == 0">This student has no notes</div>
             <mat-accordion>
                 <mat-expansion-panel *ngFor="let note of sortNotes(student.notes); first as isFirst" [expanded]="isFirst">
                     <mat-expansion-panel-header>

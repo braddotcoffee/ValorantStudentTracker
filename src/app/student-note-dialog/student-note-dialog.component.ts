@@ -22,20 +22,21 @@ export class StudentNoteDialogComponent implements OnInit {
         private dialogRef: MatDialogRef<StudentNoteDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any
     ) {
+        this.student = this.data.student;
         if (data.note) {
             this.note = data.note;
         }
         
         this.noteForm = this.formBuilder.group({
-            currentrank: [data.note?.currentRank, [Validators.required]],
+            currentrank: [data.note?.currentRank],
             rr: [data.note?.currentRR],
             note: [data.note?.content, [Validators.required]],
         });
-
-        this.student = this.data.student;
     }
 
-    async ngOnInit(): Promise<void> { }
+    ngOnInit(): void {
+        this.dialogRef.updateSize("40%");
+    }
 
     async onClickSubmit() {
         if (!this.noteForm.valid) {

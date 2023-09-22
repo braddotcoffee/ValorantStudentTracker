@@ -14,13 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';;
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { StudentNotesComponent } from './student-notes/student-notes.component';
 import { StudentLandingComponent } from './landing/landing.component';
@@ -54,17 +48,10 @@ import { LoginButtonComponent } from './login-button/login-button.component';
     MatFormFieldModule,
     MatDialogModule,
     MatButtonModule,
-    MatCardModule,
-    MatDividerModule,
     MatExpansionModule,
-    MatIconModule,
-    MatTableModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
     MatSelectModule,
-    MatMenuModule,
-    MatTooltipModule,
-    BrowserAnimationsModule
   ],
   bootstrap: [AppComponent]
 })

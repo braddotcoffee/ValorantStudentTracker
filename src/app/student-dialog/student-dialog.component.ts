@@ -36,7 +36,9 @@ export class StudentDialogComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        this.dialogRef.updateSize("40%");
+    }
 
     async onClickSubmit(): Promise<void> {
         if (!this.studentForm.valid) {

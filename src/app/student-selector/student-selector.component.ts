@@ -54,8 +54,6 @@ export class StudentSelectorComponent implements OnInit {
 
     onClickCreate() {
         const dialogConfig = new MatDialogConfig();
-        dialogConfig.minWidth = "520px"
-        dialogConfig.width = "40%";
         dialogConfig.data = { };
 
         this.matDialog.open(StudentDialogComponent, dialogConfig);

@@ -1,26 +1,9 @@
-.student-selector-container {
-    padding: 16px;
-    width: 100%;
-}
-
 .student-selector-load {
     display: flex;
     justify-content: center;
 }
 
-.mat-option:hover, 
-.mat-option.mat-selected:hover, 
-.mat-option.mat-selected.mat-active:hover {
-    color: var(--black);
-    background-color: var(--accent);
-    transition-duration: .25s;
-}
-
-.mat-option.mat-selected.mat-active {
-    color: var(--white);
-    background-color: var(--primary-800);
-}
-
-.student-selector-container .mat-form-field {
-    min-width: 100%;
+.student-selector {
+    width: 100%;
+    margin: 0 12px 0 0;
 }

@@ -19,6 +19,17 @@
     border-bottom: 4px solid var(--accent);
 }
 
+.student-not-found {
+    font-size: 48px;
+    color: var(--warn-900);
+}
+
+.student-name {
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--primary);
+}
+
 .view-only-status-container {
     display: flex;
     justify-content: center;
@@ -38,23 +49,13 @@
     border-radius: 20px;
 }
 
-.student-name {
-    font-size: 48px;
-    font-weight: 500;
-    color: var(--primary);
-}
-
-.student-not-found {
-    font-size: 48px;
-    color: var(--warn-900);
-}
-
 .student-data-container {
     display:flex;
     flex-direction: row;
     padding: 64px;
     gap: 64px;
 }
+
 .right-column,
 .cards {
     min-width: 280px;
@@ -87,19 +88,24 @@
     gap: 4px;
 }
 
-.starting-rank {
-    color: var(--white);
-}
-
 .rank-image {
     display: flex;
     width: 32px;
     height: 32px;
 }
 
+.starting-rank {
+    color: var(--white);
+}
+
 .trackergg-card:hover {
     background-color: var(--primary-850);
     transition-duration: .25s;
+}
+
+.student-buttons {
+    display: flex;
+    gap: 16px;
 }
 
 .student-notes {
@@ -108,18 +114,10 @@
     width: 60%;
 }
 
-.student-buttons {
+.student-no-notes {
     display: flex;
-    gap: 16px;
-}
-
-.student-actions {
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-.student-notes-content {
-    font-size: 18px;
+    justify-content: center;
+    font-size: 24px;
     color: var(--white);
 }
 

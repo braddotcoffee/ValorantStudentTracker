@@ -34,6 +34,7 @@ export class StudentNotesComponent implements OnInit {
                 error: err => {
                     this.loading = false;
 
+                    // TODO Fix this won't throw in reader service
                     if (err instanceof NoStudentExistsError) {
                         this.failed = true;
                     } else {
@@ -46,8 +47,6 @@ export class StudentNotesComponent implements OnInit {
 
     onClickAddNote() {
         const dialogConfig = new MatDialogConfig();
-        dialogConfig.minWidth = "520px"
-        dialogConfig.width = "40%";
         dialogConfig.data = {
             student: this.student
         }
@@ -57,8 +56,6 @@ export class StudentNotesComponent implements OnInit {
 
     onClickEditNote(note: Note) {
         const dialogConfig = new MatDialogConfig();
-        dialogConfig.minWidth = "520px"
-        dialogConfig.width = "40%";
         dialogConfig.data = {
             student: this.student,
             note: note
@@ -69,8 +66,6 @@ export class StudentNotesComponent implements OnInit {
 
     onClickEditStudent(student: Student) {
         const dialogConfig = new MatDialogConfig();
-        dialogConfig.minWidth = "520px"
-        dialogConfig.width = "40%";
         dialogConfig.data = {
             student: this.student
         };

@@ -11,7 +11,7 @@ export class LoginButtonComponent implements OnInit {
       public spreadsheetService: SpreadsheetService,
     ) { }
 
-    async ngOnInit(): Promise<void> { }
+    ngOnInit(): void { }
 
     async onClickLogin() {
       await this.spreadsheetService.login();

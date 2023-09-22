@@ -216,9 +216,10 @@ $my-theme: mat.define-dark-theme((
     background-color: var(--warn-600);
 }
 
-::ng-deep .mat-option:hover {
-    color: var(--black);
-    background-color: var(--accent);
+.select-panel {
+    margin-left: 16px !important;
+    margin-top: 23px !important; 
+    min-width: 100% !important;
 }
 
 ::-webkit-scrollbar {

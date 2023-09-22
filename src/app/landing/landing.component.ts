@@ -10,7 +10,7 @@ export class StudentLandingComponent implements OnInit {
     static readonly MAX_RR_GAINED_VALUE = 500000;
     rrGainedValue: number = 10000;
 
-    async ngOnInit(): Promise<void> {
+    ngOnInit(): void {
         this.rrGainedValue = Math.floor(Math.random() * (StudentLandingComponent.MAX_RR_GAINED_VALUE - StudentLandingComponent.MIN_RR_GAINED_VALUE + 1) + StudentLandingComponent.MIN_RR_GAINED_VALUE);
     }
 }
