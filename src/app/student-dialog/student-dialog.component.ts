@@ -1,10 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Status, Student } from 'src/types/student';
+import { Student } from 'src/types/student';
 import { SpreadsheetService } from '../spreadsheet.service';
-import { Observable, firstValueFrom, forkJoin, timeout } from 'rxjs';
+import { firstValueFrom, forkJoin, timeout } from 'rxjs';
 import { Router } from '@angular/router';
+import { handleError } from '../util/error-util';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'dialog-student',
@@ -21,6 +23,7 @@ export class StudentDialogComponent implements OnInit {
         private router: Router,
         private formBuilder: FormBuilder,
         private dialogRef: MatDialogRef<StudentDialogComponent>,
+        private snackBar: MatSnackBar,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         // If provided a student we are in edit mode.
@@ -67,9 +70,7 @@ export class StudentDialogComponent implements OnInit {
                     this.loading = false;
                     this.dialogRef.close();
                 },
-                error: err => {
-                    console.log(`Unexpected exception in student dialog: ${err}`);
-                }
+                error: err => handleError(this.snackBar, err)
             });
         } else {
             const student: Student = {
@@ -88,9 +89,7 @@ export class StudentDialogComponent implements OnInit {
                     this.dialogRef.close();
                     this.router.navigate(['notes'], { queryParams: { student: student.name } });
                 },
-                error: err => {
-                    console.log(`Unexpected exception in student dialog: ${err}`);
-                }
+                error: err => handleError(this.snackBar, err)
             });
         }
     }

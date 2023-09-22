@@ -4,6 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Note, Student } from 'src/types/student';
 import { SpreadsheetService } from '../spreadsheet.service';
 import { firstValueFrom, forkJoin, pipe, timeout } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { handleError } from '../util/error-util';
 
 @Component({
     selector: 'dialog-student-note',
@@ -20,6 +22,7 @@ export class StudentNoteDialogComponent implements OnInit {
         private spreadsheetService: SpreadsheetService,
         private formBuilder: FormBuilder,
         private dialogRef: MatDialogRef<StudentNoteDialogComponent>,
+        private snackBar: MatSnackBar,
         @Inject(MAT_DIALOG_DATA) private data: any
     ) {
         this.student = this.data.student;
@@ -75,9 +78,7 @@ export class StudentNoteDialogComponent implements OnInit {
                 this.loading = false;
                 this.dialogRef.close();
             },
-            error: err => {
-                console.log(`Unexpected exception in student note dialog: ${err}`);
-            }
+            error: err => handleError(this.snackBar, err)
         });
     }
 }

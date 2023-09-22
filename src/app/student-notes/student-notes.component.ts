@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { StudentNoteDialogComponent } from '../student-note-dialog/student-note-dialog.component';
 import { StudentDialogComponent } from '../student-dialog/student-dialog.component';
+import { handleError } from '../util/error-util';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-student-notes',
@@ -12,14 +14,14 @@ import { StudentDialogComponent } from '../student-dialog/student-dialog.compone
     styleUrls: ['./student-notes.component.scss'],
 })
 export class StudentNotesComponent implements OnInit {
-    student: Student | null = null;
     loading: boolean = true;
-    failed: boolean = false;
+    student: Student | null = null;
 
     constructor(
         public spreadsheetService: SpreadsheetService,
         private route: ActivatedRoute,
-        private matDialog: MatDialog
+        private matDialog: MatDialog,
+        private snackBar: MatSnackBar
     ) { }
 
     async ngOnInit(): Promise<void> {
@@ -29,18 +31,8 @@ export class StudentNotesComponent implements OnInit {
                 next: student => {
                     this.student = student;
                     this.loading = false;
-                    this.failed = false;
                 },
-                error: err => {
-                    this.loading = false;
-
-                    // TODO Fix this won't throw in reader service
-                    if (err instanceof NoStudentExistsError) {
-                        this.failed = true;
-                    } else {
-                        console.log(`Unexpected exception in student notes init: ${err}`);
-                    }
-                }
+                error: err => handleError(this.snackBar, err)
             });
         });
     }

@@ -2,12 +2,6 @@
     <mat-spinner color="primary"></mat-spinner>
 </div>
 
-<div class="student-notes-failed" *ngIf="failed">
-    <div class="student-header">
-        <div class="student-not-found">Student not found...</div>
-    </div>
-</div>
-
 <div class="student-container" *ngIf="student !== null && !loading">
     <div class="student-header">
         <div class="student-name">{{student.name}}</div>

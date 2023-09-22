@@ -216,6 +216,16 @@ $my-theme: mat.define-dark-theme((
     background-color: var(--warn-600);
 }
 
+.snackbar-warn {
+    background-color: var(--warn-900);
+    color: var(--white);
+}
+
+.snackbar-success {
+    background-color: var(--success-900);
+    color: var(--white);
+}
+
 .select-panel {
     margin-left: 16px !important;
     margin-top: 23px !important; 

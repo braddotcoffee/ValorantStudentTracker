@@ -20,6 +20,7 @@ import { StudentNotesComponent } from './student-notes/student-notes.component';
 import { StudentLandingComponent } from './landing/landing.component';
 import { StudentNoteDialogComponent } from './student-note-dialog/student-note-dialog.component';
 import { StudentDialogComponent } from './student-dialog/student-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { LoginButtonComponent } from './login-button/login-button.component';
 
@@ -47,6 +48,7 @@ import { LoginButtonComponent } from './login-button/login-button.component';
     MatInputModule,
     MatFormFieldModule,
     MatDialogModule,
+    MatSnackBarModule,
     MatButtonModule,
     MatExpansionModule,
     MatToolbarModule,

@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { StudentDialogComponent } from '../student-dialog/student-dialog.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { handleError } from '../util/error-util';
 
 @Component({
   selector: 'app-student-selector',
@@ -22,6 +24,7 @@ export class StudentSelectorComponent implements OnInit {
         public spreadsheetService: SpreadsheetService,
         public router: Router,
         private matDialog: MatDialog,
+        private snackBar: MatSnackBar,
     ) {
       this.filteredStudentNames = this.searchStudentsCtrl.valueChanges
           .pipe(
@@ -35,9 +38,7 @@ export class StudentSelectorComponent implements OnInit {
             next: names => {
                 this.studentNames = names;
             },
-            error: err => {
-                console.log(`Unexpected exception in student selector: ${err}`);
-            }
+            error: err => handleError(this.snackBar, err)
         });
       
         this.loading = false;
