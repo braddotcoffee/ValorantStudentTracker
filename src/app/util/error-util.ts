@@ -12,7 +12,7 @@ export function handleError(snackBar: MatSnackBar, error: Error) {
     console.log(error);
 }
 
-export function handleHttpError(snackBar: MatSnackBar, error: HttpErrorResponse) {
+function handleHttpError(snackBar: MatSnackBar, error: HttpErrorResponse) {
     var errorMessage: string = `Woah! Something went wrong (${error.status})`;
     if (error.status === 404) {
         errorMessage = "Page not found...";
@@ -25,7 +25,7 @@ export function handleHttpError(snackBar: MatSnackBar, error: HttpErrorResponse)
     });
 }
 
-export function handleUnexpectedError(snackBar: MatSnackBar, error: NoStudentExistsError) {
+function handleUnexpectedError(snackBar: MatSnackBar, error: NoStudentExistsError) {
     snackBar.open(`Unexpected exception... check console...`, 'Dismiss', {
         panelClass: ['snackbar-warn']
     });

@@ -15,10 +15,10 @@ import { handleError } from '../util/error-util';
   styleUrls: ['./student-selector.component.scss']
 })
 export class StudentSelectorComponent implements OnInit {
+    loading: boolean = true;
     studentNames: string[] = [];
     filteredStudentNames: Observable<string[]>;
     searchStudentsCtrl = new FormControl();
-    loading: boolean = true;
 
     constructor(
         public spreadsheetService: SpreadsheetService,

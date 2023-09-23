@@ -48,49 +48,56 @@ export class StudentDialogComponent implements OnInit {
             return;
         }
         
-        this.loading = true;
         if (this.student) {
-            /** 
-             * We need the students row in order to edit it. The field may not be present if it was fetched in read-only view.
-             */
-            if (!this.student?.row) {
-                const editModeStudent = await firstValueFrom((await this.spreadsheetService.instance.getStudent(this.student.name)).pipe(timeout(10000)));
-                this.student.row = editModeStudent.row;
-            }
-
-            this.student.name = this.studentForm.get('name')?.value;
-            this.student.tracker = this.studentForm.get('tracker')?.value;
-            this.student.startingRank = this.studentForm.get('startingRank')?.value;
-            this.student.startingRR = this.studentForm.get('rr')?.value;
-            this.student.status = "UPDATED";
-
-            const obs = await this.spreadsheetService.instance.updateStudent(this.student);
-            forkJoin(obs).subscribe({
-                next: _ => {
-                    this.loading = false;
-                    this.dialogRef.close();
-                },
-                error: err => handleError(this.snackBar, err)
-            });
+            await this.updateStudent(this.student);
         } else {
-            const student: Student = {
-                name: this.studentForm.get('name')?.value,
-                tracker: this.studentForm.get('tracker')?.value,
-                startingRank: this.studentForm.get('startingRank')?.value,
-                startingRR: this.studentForm.get('rr')?.value,
-                status: "NEW",
-                notes: [],
-            };
-
-            const obs = await this.spreadsheetService.instance.createStudent(student)
-            forkJoin(obs).subscribe({
-                next: _ => {
-                    this.loading = false;
-                    this.dialogRef.close();
-                    this.router.navigate(['notes'], { queryParams: { student: student.name } });
-                },
-                error: err => handleError(this.snackBar, err)
-            });
+            await this.createNewStudent();
         }
+    }
+
+    private async updateStudent(student: Student): Promise<void> {
+        // We need the students row in order to edit it. The field may not be present if it was fetched in read-only view.
+        if (!student.row) {
+            const editModeStudent = await firstValueFrom((await this.spreadsheetService.instance.getStudent(student.name)).pipe(timeout(10000)));
+            student.row = editModeStudent.row;
+        }
+
+        student.name = this.studentForm.get('name')?.value;
+        student.tracker = this.studentForm.get('tracker')?.value;
+        student.startingRank = this.studentForm.get('startingRank')?.value;
+        student.startingRR = this.studentForm.get('rr')?.value;
+        student.status = "UPDATED";
+
+        this.loading = true;
+        const obs = await this.spreadsheetService.instance.updateStudent(student);
+        forkJoin(obs).subscribe({
+            next: _ => {
+                this.loading = false;
+                this.dialogRef.close();
+            },
+            error: err => handleError(this.snackBar, err)
+        });
+    }
+
+    private async createNewStudent(): Promise<void> {
+        const student: Student = {
+            name: this.studentForm.get('name')?.value,
+            tracker: this.studentForm.get('tracker')?.value,
+            startingRank: this.studentForm.get('startingRank')?.value,
+            startingRR: this.studentForm.get('rr')?.value,
+            status: "NEW",
+            notes: [],
+        };
+
+        this.loading = true;
+        const obs = await this.spreadsheetService.instance.createStudent(student)
+        forkJoin(obs).subscribe({
+            next: _ => {
+                this.loading = false;
+                this.dialogRef.close();
+                this.router.navigate(['notes'], { queryParams: { student: student.name } });
+            },
+            error: err => handleError(this.snackBar, err)
+        });
     }
 }

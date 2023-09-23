@@ -91,7 +91,7 @@ export class SpreadsheetReaderService implements ISpreadsheetService {
       )
   }
 
-  createStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]> {
+  async createStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]> {
     throw new UnauthorizedOperationError()
   }
 
@@ -109,7 +109,7 @@ export class SpreadsheetReaderService implements ISpreadsheetService {
     )
   }
 
-  updateStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]> {
+  async updateStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]> {
     throw new UnauthorizedOperationError()
   }
 }
