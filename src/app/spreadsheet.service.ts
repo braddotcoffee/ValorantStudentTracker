@@ -42,7 +42,7 @@ export interface ISpreadsheetService {
   providedIn: 'root'
 })
 export class SpreadsheetService {
-  constructor (
+  constructor(
     private spreadsheetReaderService: SpreadsheetReaderService,
     private spreadsheetEditorService: SpreadsheetEditorService
   ) { }
@@ -52,12 +52,12 @@ export class SpreadsheetService {
       if (!this.spreadsheetEditorService.isLoggedIn()) this.spreadsheetEditorService.login();
       return this.spreadsheetEditorService;
     }
-    
+
     else return this.spreadsheetReaderService;
   }
 
   public async login(): Promise<void> {
-      await this.spreadsheetEditorService.login();
+    await this.spreadsheetEditorService.login();
   }
 
   public isReadOnly() {
@@ -69,9 +69,12 @@ export class SpreadsheetService {
   providedIn: 'root'
 })
 export class SpreadsheetReaderService implements ISpreadsheetService {
+  private readonly SPREADSHEET_ID;
   constructor(
     private httpClient: HttpClient
-  ) { }
+  ) {
+    this.SPREADSHEET_ID = localStorage.getItem("STUDENT_TRACKER_SPREADSHEET_ID") ?? getSpreadsheetID();
+  }
 
   private buildGetStudentNamesUrl(): string {
     return `${getBackendUrl()}/list_students`;
@@ -84,7 +87,12 @@ export class SpreadsheetReaderService implements ISpreadsheetService {
   async getStudentNames(): Promise<Observable<string[]>> {
     return this.httpClient
       .get(
-        this.buildGetStudentNamesUrl()
+        this.buildGetStudentNamesUrl(),
+        {
+          headers: {
+            "X-Spreadsheet-Id": this.SPREADSHEET_ID
+          }
+        }
       )
       .pipe(
         map((response: any) => response.students)
@@ -97,16 +105,21 @@ export class SpreadsheetReaderService implements ISpreadsheetService {
 
   async getStudent(studentName: string): Promise<Observable<Student>> {
     return this.httpClient
-    .get(
-      this.buildGetStudentUrl(studentName)
-    )
-    .pipe(
-      map((response: any): Student => {
-        response.notes.forEach((note: Note) =>  note.date = moment(note.date).toDate());
+      .get(
+        this.buildGetStudentUrl(studentName),
+        {
+          headers: {
+            "X-Spreadsheet-Id": this.SPREADSHEET_ID
+          }
+        }
+      )
+      .pipe(
+        map((response: any): Student => {
+          response.notes.forEach((note: Note) => note.date = moment(note.date).toDate());
 
-        return response;
-      })
-    )
+          return response;
+        })
+      )
   }
 
   async updateStudent(student: Student): Promise<[Observable<Object>, Observable<Object>]> {
@@ -125,18 +138,18 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
   private expirationTime: number = Date.now();
 
   constructor(private httpClient: HttpClient) {
-      this.SPREADSHEET_ID = localStorage.getItem("STUDENT_TRACKER_SPREADSHEET_ID") ?? getSpreadsheetID();
+    this.SPREADSHEET_ID = localStorage.getItem("STUDENT_TRACKER_SPREADSHEET_ID") ?? getSpreadsheetID();
 
-      this.client = google.accounts.oauth2.initTokenClient({
-          client_id: getGoogleClientID(),
-          scope: 'https://www.googleapis.com/auth/spreadsheets',
-          prompt: '',
-          callback: (response: google.accounts.oauth2.TokenResponse) => {
-              this.expirationTime = Date.now() + (Number(response.expires_in) * MS_IN_SECOND);
-              this.accessToken = response.access_token;
-              this.authenticatedSubject.next();
-          },
-      });
+    this.client = google.accounts.oauth2.initTokenClient({
+      client_id: getGoogleClientID(),
+      scope: 'https://www.googleapis.com/auth/spreadsheets',
+      prompt: '',
+      callback: (response: google.accounts.oauth2.TokenResponse) => {
+        this.expirationTime = Date.now() + (Number(response.expires_in) * MS_IN_SECOND);
+        this.accessToken = response.access_token;
+        this.authenticatedSubject.next();
+      },
+    });
   }
 
   private buildHeaders() {
@@ -179,16 +192,16 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
   }
 
   public async login(): Promise<void> {
-      await this.ensureAccessToken();
+    await this.ensureAccessToken();
   }
 
   public isLoggedIn(): boolean {
-      const timeUntilExpiration = this.expirationTime - Date.now();
-      if (timeUntilExpiration < MS_IN_SECOND) {
-          return false;
-      }
-      
-      return true;
+    const timeUntilExpiration = this.expirationTime - Date.now();
+    if (timeUntilExpiration < MS_IN_SECOND) {
+      return false;
+    }
+
+    return true;
   }
 
   public hasLoggedIn(): boolean {

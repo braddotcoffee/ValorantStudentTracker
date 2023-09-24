@@ -43,3 +43,4 @@ Thumbs.db
 
 environment.dev.ts
 secrets.yaml
+config.yaml
