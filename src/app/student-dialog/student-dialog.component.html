@@ -45,7 +45,7 @@
                     <mat-option value="Radiant">Radiant</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field color="accent" *ngIf="['Immortal 1', 'Immortal 2', 'Immortal 3', 'Radiant'].includes(studentForm.get('startingRank')?.value)">
+            <mat-form-field color="accent" *ngIf="shouldTrackRR(studentForm.get('startingRank')?.value)">
                 <mat-label>RR</mat-label>
                 <input matInput type="number" formControlName="rr">
             </mat-form-field>

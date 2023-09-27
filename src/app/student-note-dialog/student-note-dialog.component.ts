@@ -1,11 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Note, Student } from 'src/types/student';
+import { Note, Rank, Student } from 'src/types/student';
 import { SpreadsheetService } from '../spreadsheet.service';
 import { firstValueFrom, forkJoin, pipe, timeout } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { handleError } from '../util/error-util';
+import { shouldTrackRR } from '../util/rank-util';
 
 @Component({
     selector: 'dialog-student-note',
@@ -17,6 +18,8 @@ export class StudentNoteDialogComponent implements OnInit {
     noteForm: FormGroup;
     student: Student;
     note: Note | null = null;
+
+    shouldTrackRR = shouldTrackRR; // Required for reference in html
     
     constructor(
         private spreadsheetService: SpreadsheetService,
@@ -65,7 +68,7 @@ export class StudentNoteDialogComponent implements OnInit {
         }
     
         note.currentRank = this.noteForm.get('currentrank')?.value;
-        note.currentRR = this.noteForm.get('rr')?.value;
+        note.currentRR = shouldTrackRR(note.currentRank) ? this.noteForm.get('rr')?.value : undefined;
         note.content = this.noteForm.get('note')?.value;
         note.status = "UPDATED";
 

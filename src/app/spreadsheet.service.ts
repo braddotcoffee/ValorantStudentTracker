@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 import { firstValueFrom, map, Observable, Subject, timeout } from 'rxjs';
 import { getBackendUrl, getGoogleClientID, getSpreadsheetID } from 'src/main';
-import { Note, Student } from 'src/types/student';
+import { Note, Rank, Student } from 'src/types/student';
+import { shouldTrackRR } from './util/rank-util';
 
 const MS_IN_SECOND = 1000;
 
@@ -211,7 +212,7 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
       student.name,
       student.tracker,
       student.startingRank,
-      student.startingRR
+      shouldTrackRR(student.startingRank) ? student.startingRR : ""
     ]
   }
 
@@ -221,7 +222,7 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
       note.content,
       note.date.toLocaleDateString("en-US"),
       note.currentRank,
-      note.currentRR
+      shouldTrackRR(note.currentRank) ? note.currentRR : ""
     ]
   }
 
@@ -305,7 +306,7 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
               studentNotes.push({
                 content: row[1],
                 date: new Date(row[2]),
-                currentRank: row[3],
+                currentRank: row[3] as Rank,
                 currentRR: row[4] ? Number(row[4]) : undefined,
                 status: "UNCHANGED",
                 row: i + 2
@@ -316,7 +317,7 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
           return {
             name: studentMetadata[0],
             tracker: studentMetadata[1],
-            startingRank: studentMetadata[2],
+            startingRank: studentMetadata[2] as Rank,
             startingRR: studentMetadata[3] ? Number(studentMetadata[3]) : undefined,
             status: 'UNCHANGED',
             row: metadataRow,

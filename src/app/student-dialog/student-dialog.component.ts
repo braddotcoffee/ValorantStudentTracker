@@ -7,6 +7,7 @@ import { firstValueFrom, forkJoin, timeout } from 'rxjs';
 import { Router } from '@angular/router';
 import { handleError } from '../util/error-util';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { shouldTrackRR } from '../util/rank-util';
 
 @Component({
     selector: 'dialog-student',
@@ -17,6 +18,8 @@ export class StudentDialogComponent implements OnInit {
     loading: boolean = false;
     studentForm: FormGroup;
     student: Student | null = null;
+
+    shouldTrackRR = shouldTrackRR; // Required for reference in html
     
     constructor(
         private spreadsheetService: SpreadsheetService,
@@ -65,7 +68,7 @@ export class StudentDialogComponent implements OnInit {
         student.name = this.studentForm.get('name')?.value;
         student.tracker = this.studentForm.get('tracker')?.value;
         student.startingRank = this.studentForm.get('startingRank')?.value;
-        student.startingRR = this.studentForm.get('rr')?.value;
+        student.startingRR = shouldTrackRR(student.startingRank) ? this.studentForm.get('rr')?.value : undefined;
         student.status = "UPDATED";
 
         this.loading = true;
