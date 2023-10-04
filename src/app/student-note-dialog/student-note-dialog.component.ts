@@ -3,10 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Note, Rank, Student } from 'src/types/student';
 import { SpreadsheetService } from '../spreadsheet.service';
-import { firstValueFrom, forkJoin, pipe, timeout } from 'rxjs';
+import { firstValueFrom, forkJoin, timeout } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { handleError } from '../util/error-util';
 import { shouldTrackRR } from '../util/rank-util';
+import { CONFIG_DIALOG_INITIAL_SIZE, CONFIG_SERVICE_REQUEST_TIMEOUT } from 'src/main';
 
 @Component({
     selector: 'dialog-student-note',
@@ -19,7 +20,8 @@ export class StudentNoteDialogComponent implements OnInit {
     student: Student;
     note: Note | null = null;
 
-    shouldTrackRR = shouldTrackRR; // Required for reference in html
+    shouldTrackRR = shouldTrackRR; // Exporting library function for reference in HTML
+    Rank = Rank // Exporting type for reference in HTML
     
     constructor(
         private spreadsheetService: SpreadsheetService,
@@ -41,7 +43,7 @@ export class StudentNoteDialogComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.dialogRef.updateSize("40%");
+        this.dialogRef.updateSize(CONFIG_DIALOG_INITIAL_SIZE);
     }
 
     async onClickSubmit() {
@@ -62,7 +64,7 @@ export class StudentNoteDialogComponent implements OnInit {
          * This assumes that a student won't have two notes made on the same day, if that happens then this will BREAK.
          */
         if (!note.row) {
-            const editModeStudent = await firstValueFrom((await this.spreadsheetService.instance.getStudent(student.name)).pipe(timeout(10000)));
+            const editModeStudent = await firstValueFrom((await this.spreadsheetService.instance.getStudent(student.name)).pipe(timeout(CONFIG_SERVICE_REQUEST_TIMEOUT)));
             const editModeNote = editModeStudent.notes.find(({ date }) => note.date.toDateString() === date.toDateString());
             note.row = editModeNote?.row;
         }

@@ -1,13 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Student } from 'src/types/student';
+import { Student, Rank } from 'src/types/student';
 import { SpreadsheetService } from '../spreadsheet.service';
 import { firstValueFrom, forkJoin, timeout } from 'rxjs';
 import { Router } from '@angular/router';
 import { handleError } from '../util/error-util';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { shouldTrackRR } from '../util/rank-util';
+import { CONFIG_DIALOG_INITIAL_SIZE, CONFIG_SERVICE_REQUEST_TIMEOUT } from 'src/main';
 
 @Component({
     selector: 'dialog-student',
@@ -19,7 +20,8 @@ export class StudentDialogComponent implements OnInit {
     studentForm: FormGroup;
     student: Student | null = null;
 
-    shouldTrackRR = shouldTrackRR; // Required for reference in html
+    shouldTrackRR = shouldTrackRR; // Exporting library function for reference in HTML
+    Rank = Rank // Exporting type for reference in HTML
     
     constructor(
         private spreadsheetService: SpreadsheetService,
@@ -43,7 +45,7 @@ export class StudentDialogComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.dialogRef.updateSize("40%");
+        this.dialogRef.updateSize(CONFIG_DIALOG_INITIAL_SIZE);
     }
 
     async onClickSubmit(): Promise<void> {
@@ -61,7 +63,7 @@ export class StudentDialogComponent implements OnInit {
     private async updateStudent(student: Student): Promise<void> {
         // We need the students row in order to edit it. The field may not be present if it was fetched in read-only view.
         if (!student.row) {
-            const editModeStudent = await firstValueFrom((await this.spreadsheetService.instance.getStudent(student.name)).pipe(timeout(10000)));
+            const editModeStudent = await firstValueFrom((await this.spreadsheetService.instance.getStudent(student.name)).pipe(timeout(CONFIG_SERVICE_REQUEST_TIMEOUT)));
             student.row = editModeStudent.row;
         }
 
