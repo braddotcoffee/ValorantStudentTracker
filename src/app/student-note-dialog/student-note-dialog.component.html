@@ -1,0 +1,33 @@
+<div class="student-note-dialog-container">
+    <div class="student-note-dialog-load" *ngIf="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+
+    <ng-container *ngIf="!loading">
+        <div class="student-note-dialog-title">{{this.note === null ? "New Note" : "Edit Note"}}</div>
+
+        <mat-dialog-content [formGroup]="noteForm">
+            <mat-form-field color="accent">
+                <mat-label>Current Rank</mat-label>
+                <mat-select formControlName="currentrank" disableOptionCentering panelClass="select-panel">
+                    <mat-option *ngFor="let rank of Rank" [value]="rank">
+                        {{rank}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field color="accent" *ngIf="shouldTrackRR(noteForm.get('currentrank')?.value)">
+                <mat-label>RR</mat-label>
+                <input matInput type="number" formControlName="rr">
+            </mat-form-field>
+            <mat-form-field color="accent">
+                <mat-label>Note</mat-label>
+                <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="10" formControlName="note"></textarea>
+            </mat-form-field>
+        </mat-dialog-content>
+
+        <mat-dialog-actions>
+            <button mat-button mat-dialog-close type="submit" [disabled]="!noteForm.valid" color="button-accent" (click)="onClickSubmit()">Submit</button>
+            <button mat-button mat-dialog-close color="button-warn">Close</button>
+        </mat-dialog-actions>
+    </ng-container>
+</div>

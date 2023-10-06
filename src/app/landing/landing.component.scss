@@ -1,0 +1,60 @@
+.landing-container, .landing-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 64px;
+    
+}
+
+.landing-header {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 192px;
+    background: url('../../assets/images/sticker-bomb.png');
+    box-shadow: inset 0 0 0 1000px rgba(var(--accent-100-rgb), 0.9);
+    border-bottom: 4px solid var(--accent);
+}
+
+.landing-primary-text {
+    font-size: 96px;
+    font-weight: 900;
+    color: var(--primary);
+}
+
+.landing-secondary-text {
+    font-size: 48px;
+    color: var(--primary-850);
+}
+
+.cards {
+    display: flex;
+    flex-direction: row;
+    gap: 64px
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 300px;
+    padding: 40px;
+    gap: 16px;
+    background-color: var(--primary-800);
+    border-top: 2px solid var(--accent);
+}
+
+.card-title {
+    font-size: 32px;
+    font-weight: 400;
+    padding-bottom: 16px;
+    color: var(--accent);
+}
+
+.card-content {
+    font-size: 48px;
+    font-weight: 400;
+    color: var(--white);
+}

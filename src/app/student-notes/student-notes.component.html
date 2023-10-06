@@ -1,0 +1,60 @@
+<div class="student-notes-loading" *ngIf="loading">
+    <mat-spinner color="primary"></mat-spinner>
+</div>
+
+<div class="student-container" *ngIf="student !== null && !loading">
+    <div class="student-header">
+        <div class="student-name">{{student.name}}</div>
+    </div>
+    
+    <span class="view-only-status" *ngIf="spreadsheetService.isReadOnly()">
+        <img class="view-only-image" src='assets/images/icons/view-only.png'/>
+        View Only
+    </span>
+
+    <div class="student-data-container">
+        <div class="cards">
+            <div class="starting-rank-card card">
+                <div class="card-title">Starting Rank</div>
+                <div class="student-rank">
+                    <img class="rank-image" src='{{ getRankImagePath() }}'/>
+                    <div class="starting-rank">{{ getRankText(student.startingRank, student.startingRR) }}</div>
+                </div>
+            </div>
+            <a href="{{student.tracker}}" target="_blank" *ngIf="student.tracker">
+                <div class="trackergg-card card">
+                    <div class="card-title">Visit Tracker</div>
+                </div>
+            </a>
+            <div class="student-actions-card card" *ngIf="!spreadsheetService.isReadOnly()">
+                <div class="card-title">Manage Student</div>
+                <div class="student-buttons">
+                    <button mat-button color="button-accent" (click)="onClickEditStudent(student)">Edit Student</button>
+                    <button mat-button color="button-accent" (click)="onClickAddNote()">Add Note</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="student-notes">
+            <div class="student-no-notes" *ngIf="student.notes.length == 0">This student has no notes</div>
+            <mat-accordion>
+                <mat-expansion-panel *ngFor="let note of sortNotes(student.notes); first as isFirst" [expanded]="isFirst">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>{{note.date.toLocaleDateString()}}
+                            <ng-container *ngIf="note.currentRank"> • {{ getRankText(note.currentRank, note.currentRR) }}</ng-container>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    
+                    <div class="student-note-content">{{note.content}}</div>
+                    <mat-action-row *ngIf="!spreadsheetService.isReadOnly()">
+                        <button mat-button color="button-accent" (click)="onClickEditNote(note)">Edit</button>
+                    </mat-action-row>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+
+        <div class="right-column">
+
+        </div>
+    </div>
+</div>

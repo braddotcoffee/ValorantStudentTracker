@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SpreadsheetService } from '../spreadsheet.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
@@ -6,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
+    constructor(
+      public router: Router,
+      public spreadsheetService: SpreadsheetService,
+    ) { }
 
-  constructor() { }
+    ngOnInit(): void { }
 
-  ngOnInit(): void {
-  }
-
+    async onClickLogin() {
+      await this.spreadsheetService.login();
+    }
 }

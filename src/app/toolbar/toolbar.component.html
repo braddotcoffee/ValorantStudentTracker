@@ -1,4 +1,11 @@
-<mat-toolbar class="toolbar-color">
-    <a routerLink="/"><span>Valorant Student Tracker</span></a>
-    <span class="spacer"></span>
+<mat-toolbar class="toolbar">
+    <div class="left">
+        <a routerLink="/"><span class="toolbar-title">Valorant Student Tracker</span></a>
+    </div>
+    <div class="center">
+        <app-student-selector class="selector"></app-student-selector>
+    </div>
+    <div class="right">
+        <app-login-button></app-login-button>
+    </div>
 </mat-toolbar>

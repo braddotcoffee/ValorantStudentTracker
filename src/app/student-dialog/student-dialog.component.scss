@@ -1,0 +1,27 @@
+.student-dialog-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.student-dialog-load {
+    display: flex;
+    justify-content: center;
+}
+
+.student-dialog-title {
+    font-size: 24px;
+    margin-bottom: 24px;
+    color: var(--accent);
+}
+
+.student-dialog-container .mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.student-dialog-container .mat-dialog-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}

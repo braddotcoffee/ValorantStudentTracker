@@ -1,0 +1,7 @@
+<div class="login-button" *ngIf="spreadsheetService.isReadOnly()">
+    <button mat-button color="button-accent" (click)="onClickLogin()">Login</button>
+</div>
+
+<div class="logged-in" *ngIf="!spreadsheetService.isReadOnly()">
+    Logged In
+</div>

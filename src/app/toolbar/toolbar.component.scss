@@ -1,6 +1,28 @@
-@import "../../variables.scss";
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--accent);
+    color: var(--primary);
+}
 
-.toolbar-color {
-    background-color: $light-primary;
-    color: white;
+.toolbar-title {
+    display: flex;
+    justify-content: flex-start;
+    color: var(--primary);
+}
+
+.left, 
+.right {
+    min-width: 20%;
+}
+
+.right {
+    display: flex;
+    justify-content: right;
+}
+
+.center {
+    width: 40%
 }

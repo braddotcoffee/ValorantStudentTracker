@@ -1,16 +1,9 @@
-@import '../../variables.scss';
-
-button {
-    background-color: $accent-color;
-    color: $main-background-color;
+.student-selector-load {
+    display: flex;
+    justify-content: center;
 }
 
-select {
-    background-color: $main-background-color;
-    color: white;
-}
-
-.mat-progress-spinner circle,
-.mat-spinner circle {
-    stroke: $accent-color;
+.student-selector {
+    width: 100%;
+    margin: 0 12px 0 0;
 }
