@@ -12,6 +12,11 @@ export const Rank = [ "Iron 1",      "Iron 2",      "Iron 3",
                       "Radiant" ] as const
 export type Rank = typeof Rank[number]
 
+export interface Coach {
+    name: string;
+    spreadsheetId: string;
+}
+
 export interface Student {
     name: string;
     tracker: string;
