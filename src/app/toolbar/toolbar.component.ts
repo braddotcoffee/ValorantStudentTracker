@@ -22,6 +22,7 @@ export class ToolbarComponent implements OnInit {
 
     shouldShowStudentSearch(): boolean {
       // Don't show on coach selection page as the student data set may change.
-      return `/${ROUTE_COACHES}` !== this.router.url;
+      return this.router.url !== `/${ROUTE_COACHES}` && 
+             this.router.url !== "/";
     }
 }
