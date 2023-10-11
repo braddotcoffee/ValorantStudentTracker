@@ -19,7 +19,9 @@ export function displaySnackBarError(snackBar: MatSnackBar, message: string) {
 
 function handleHttpError(snackBar: MatSnackBar, error: HttpErrorResponse) {
     var errorMessage: string = `Woah! Something went wrong (${error.status})`;
-    if (error.status === 404) {
+    if (error.status === 403) {
+        errorMessage = "You do not have permission to perform that action.";
+    } else if (error.status === 404) {
         errorMessage = "Page not found...";
     } else if (error.status === 429) {
         errorMessage = "Daily request limit exceeded... try again tomorrow!";
