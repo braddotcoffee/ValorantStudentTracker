@@ -70,12 +70,13 @@ export class SpreadsheetService {
   providedIn: 'root'
 })
 export class SpreadsheetReaderService implements ISpreadsheetService {
-  private readonly SPREADSHEET_ID;
   constructor(
     private httpClient: HttpClient
-  ) {
-    // This should never be null, if it is the spreadsheet guard is broken
-    this.SPREADSHEET_ID = localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY) ?? "";
+  ) { }
+
+  private get spreadsheetId(): string {
+      // This should never be null, if it is the spreadsheet guard is broken
+      return localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY) ?? ""
   }
 
   private buildGetStudentNamesUrl(): string {
@@ -92,7 +93,7 @@ export class SpreadsheetReaderService implements ISpreadsheetService {
         this.buildGetStudentNamesUrl(),
         {
           headers: {
-            "X-Spreadsheet-Id": this.SPREADSHEET_ID
+            "X-Spreadsheet-Id": this.spreadsheetId
           }
         }
       )
@@ -111,7 +112,7 @@ export class SpreadsheetReaderService implements ISpreadsheetService {
         this.buildGetStudentUrl(studentName),
         {
           headers: {
-            "X-Spreadsheet-Id": this.SPREADSHEET_ID
+            "X-Spreadsheet-Id": this.spreadsheetId
           }
         }
       )
@@ -133,15 +134,12 @@ export class SpreadsheetReaderService implements ISpreadsheetService {
   providedIn: 'root'
 })
 export class SpreadsheetEditorService implements ISpreadsheetService {
-  private readonly SPREADSHEET_ID;
   private accessToken: string | null = null;
   private authenticatedSubject: Subject<void> = new Subject();
   private client: google.accounts.oauth2.TokenClient;
   private expirationTime: number = Date.now();
 
   constructor(private httpClient: HttpClient) {
-    this.SPREADSHEET_ID = localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY);
-
     this.client = google.accounts.oauth2.initTokenClient({
       client_id: getGoogleClientID(),
       scope: 'https://www.googleapis.com/auth/spreadsheets',
@@ -154,6 +152,11 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
     });
   }
 
+  private get spreadsheetId(): string {
+    // This should never be null, if it is the spreadsheet guard is broken
+    return localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY) ?? ""
+  }
+
   private buildHeaders() {
     return {
       headers: {
@@ -164,32 +167,32 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
 
   private buildStudentMetadataUrl(): string {
     return "https://sheets.googleapis.com/v4/spreadsheets/"
-      + this.SPREADSHEET_ID
+      + this.spreadsheetId
       + "/values/RawStudents:append?valueInputOption=USER_ENTERED"
   }
 
   private buildNotesUrl(): string {
     return "https://sheets.googleapis.com/v4/spreadsheets/"
-      + this.SPREADSHEET_ID
+      + this.spreadsheetId
       + "/values/RawNotes:append?valueInputOption=USER_ENTERED"
   }
 
   private buildGetAllStudentNamesUrl(): string {
     return "https://sheets.googleapis.com/v4/spreadsheets/"
-      + this.SPREADSHEET_ID
+      + this.spreadsheetId
       + "/values/Students!A2:A"
   }
 
   private buildGetStudentUrl(): string {
     return "https://sheets.googleapis.com/v4/spreadsheets/"
-      + this.SPREADSHEET_ID
+      + this.spreadsheetId
       + "/values:batchGet"
       + "?ranges=RawStudents!A2:D&ranges=RawNotes!A2:E"
   }
 
   private buildUpdateStudentUrl(): string {
     return "https://sheets.googleapis.com/v4/spreadsheets/"
-      + this.SPREADSHEET_ID
+      + this.spreadsheetId
       + "/values:batchUpdate"
   }
 

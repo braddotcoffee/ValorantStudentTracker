@@ -40,7 +40,7 @@ export class SpreadsheetGuard implements CanActivate {
 
     handleRootPath(): boolean | UrlTree {
         if (localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY) === null) {
-            return this.router.parseUrl(ROUTE_COACHES);
+            return this.router.createUrlTree([ROUTE_COACHES]);
         }
         
         return true;
@@ -52,12 +52,12 @@ export class SpreadsheetGuard implements CanActivate {
         // If the requested coach is already stored, redirect to landing. Assume the spreadsheet id is correct.
         if (localStorage.getItem(STORAGE_COACH_NAME_KEY) === coachName
             && localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY) !== null) {
-            return this.router.parseUrl(ROUTE_LANDING);;
+            return this.router.createUrlTree([ROUTE_LANDING]);
         }
         
         // Update stored data for the requested coach and then redirect to landing.
         if (await this.storeSpreadsheetIdForCoach(coachName)) {
-            return this.router.parseUrl(ROUTE_LANDING);;
+            return this.router.createUrlTree([ROUTE_LANDING]);
         }
 
         // We failed to update stored data for the requested coach.
@@ -66,7 +66,7 @@ export class SpreadsheetGuard implements CanActivate {
 
     handleStudentPath(): boolean | UrlTree {
         if (localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY) === null) {
-            return this.router.parseUrl(ROUTE_COACHES);
+            return this.router.createUrlTree([ROUTE_COACHES]);
         }
 
         return true;
@@ -77,7 +77,6 @@ export class SpreadsheetGuard implements CanActivate {
             .then(coach => {
                 localStorage.setItem(STORAGE_COACH_NAME_KEY, coachName);
                 localStorage.setItem(STORAGE_SPREADSHEET_ID_KEY, coach.spreadsheetId);
-
                 return true;
             })
             // If we error the coach doesn't exist.

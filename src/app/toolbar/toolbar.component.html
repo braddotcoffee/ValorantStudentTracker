@@ -3,7 +3,7 @@
         <a routerLink="/"><span class="toolbar-title">Valorant Student Tracker</span></a>
     </div>
     <div class="center">
-        <app-student-selector class="selector"></app-student-selector>
+        <app-student-selector class="selector" *ngIf="shouldShowStudentSearch()"></app-student-selector>
     </div>
     <div class="right">
         <app-login-button></app-login-button>
