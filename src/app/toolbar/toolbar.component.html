@@ -6,6 +6,9 @@
         <app-student-selector class="selector" *ngIf="shouldShowStudentSearch()"></app-student-selector>
     </div>
     <div class="right">
+        <div class="coaches-button">
+            <button mat-button color="button-accent" [routerLink]="getRouterLinkForCoachSelect()">Change Coach</button>
+        </div>
         <app-login-button></app-login-button>
     </div>
 </mat-toolbar>

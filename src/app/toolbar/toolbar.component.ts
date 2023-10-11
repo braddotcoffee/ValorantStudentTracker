@@ -25,4 +25,8 @@ export class ToolbarComponent implements OnInit {
       return this.router.url !== `/${ROUTE_COACHES}` && 
              this.router.url !== "/";
     }
+
+    getRouterLinkForCoachSelect(): string {
+      return `/${ROUTE_COACHES}`;
+    }
 }
