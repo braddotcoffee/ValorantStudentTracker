@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -23,12 +22,14 @@ import { StudentDialogComponent } from './student-dialog/student-dialog.componen
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { LoginButtonComponent } from './login-button/login-button.component';
+import { CoachSelectorComponent } from './coach-selector/coach-selector.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginButtonComponent,
+    CoachSelectorComponent,
     StudentDialogComponent,
     StudentNoteDialogComponent,
     StudentNotesComponent,

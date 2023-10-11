@@ -10,11 +10,14 @@
 .landing-header {
     display: flex;
     width: 100%;
-    height: 100%;
-    padding: 192px;
+    height: 480px;
+    background-color: var(--accent-100);
+    border-bottom: 4px solid var(--accent);
+}
+
+.woohoojin-header {
     background: url('../../assets/images/sticker-bomb.png');
     box-shadow: inset 0 0 0 1000px rgba(var(--accent-100-rgb), 0.9);
-    border-bottom: 4px solid var(--accent);
 }
 
 .landing-primary-text {

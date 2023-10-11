@@ -1,0 +1,17 @@
+<div class="coaches-loading" *ngIf="loading">
+    <mat-spinner color="primary"></mat-spinner>
+</div>
+
+<div class="coaches-container" *ngIf="coachNames.length > 0">
+    <div class="coaches-header">
+        <div class="coaches-primary-text">Select coach...</div>
+    </div>
+
+    <div class="coach-selection">
+        <ng-container *ngFor="let coach of coachNames">
+            <a [routerLink]="getRouterLinkForCoach(coach)" class="card">
+                <div class="card-title">{{coach}}</div>
+            </a>
+        </ng-container>
+    </div>
+</div>

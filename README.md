@@ -21,14 +21,13 @@ A website for tracking student VOD review notes.
     - Enable the API service for Google Sheets
     - Create an OAuth client on the credentials page
 3. Create a spreadsheet on google docs (Make sure its public).
-    - Copy its id to the `spreadsheetId` field in `environment.dev.ts`
     - Copy its id to the `SheetID` field in `config.yaml`
 4. Populate the `API_KEY` field in `secrets.yaml` with a generated API Key from [Google Cloud Console][1]
 5. `npm install`
 
 ### Run
 
-1. Start the backend container 
+1. Start the backend container
 ```
 docker compose up
 ```

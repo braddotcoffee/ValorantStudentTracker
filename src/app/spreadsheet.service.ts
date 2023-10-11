@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { firstValueFrom, map, Observable, Subject, timeout } from 'rxjs';
-import { getBackendUrl, getGoogleClientID, getSpreadsheetID } from 'src/main';
+import { firstValueFrom, map, Observable, Subject } from 'rxjs';
+import { getBackendUrl, getGoogleClientID, STORAGE_SPREADSHEET_ID_KEY } from 'src/main';
 import { Note, Rank, Student } from 'src/types/student';
 import { shouldTrackRR } from './util/rank-util';
 
@@ -74,7 +74,8 @@ export class SpreadsheetReaderService implements ISpreadsheetService {
   constructor(
     private httpClient: HttpClient
   ) {
-    this.SPREADSHEET_ID = localStorage.getItem("STUDENT_TRACKER_SPREADSHEET_ID") ?? getSpreadsheetID();
+    // This should never be null, if it is the spreadsheet guard is broken
+    this.SPREADSHEET_ID = localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY) ?? "";
   }
 
   private buildGetStudentNamesUrl(): string {
@@ -139,7 +140,7 @@ export class SpreadsheetEditorService implements ISpreadsheetService {
   private expirationTime: number = Date.now();
 
   constructor(private httpClient: HttpClient) {
-    this.SPREADSHEET_ID = localStorage.getItem("STUDENT_TRACKER_SPREADSHEET_ID") ?? getSpreadsheetID();
+    this.SPREADSHEET_ID = localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY);
 
     this.client = google.accounts.oauth2.initTokenClient({
       client_id: getGoogleClientID(),

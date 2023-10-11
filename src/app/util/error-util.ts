@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { NoStudentExistsError } from "../spreadsheet.service";
 
 export function handleError(snackBar: MatSnackBar, error: Error) {
     if (error instanceof HttpErrorResponse) {
@@ -12,6 +11,12 @@ export function handleError(snackBar: MatSnackBar, error: Error) {
     console.log(error);
 }
 
+export function displaySnackBarError(snackBar: MatSnackBar, message: string) {
+    snackBar.open(message, 'Dismiss', {
+        panelClass: ['snackbar-warn']
+    });
+}
+
 function handleHttpError(snackBar: MatSnackBar, error: HttpErrorResponse) {
     var errorMessage: string = `Woah! Something went wrong (${error.status})`;
     if (error.status === 404) {
@@ -20,13 +25,9 @@ function handleHttpError(snackBar: MatSnackBar, error: HttpErrorResponse) {
         errorMessage = "Daily request limit exceeded... try again tomorrow!";
     }
 
-    snackBar.open(errorMessage, 'Dismiss', {
-        panelClass: ['snackbar-warn']
-    });
+    displaySnackBarError(snackBar, errorMessage);
 }
 
-function handleUnexpectedError(snackBar: MatSnackBar, error: NoStudentExistsError) {
-    snackBar.open(`Unexpected exception... check console...`, 'Dismiss', {
-        panelClass: ['snackbar-warn']
-    });
+function handleUnexpectedError(snackBar: MatSnackBar, error: Error) {
+    displaySnackBarError(snackBar, "Unexpected exception... check console...");
 }

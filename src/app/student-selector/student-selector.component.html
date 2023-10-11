@@ -19,7 +19,7 @@
             </ng-container>
 
             <ng-container *ngIf="students.length > 0">
-                <mat-option (click)='openStudentPage(student)' *ngFor="let student of filteredStudentNames | async" [value]="student">
+                <mat-option [routerLink]="getRouterLinkForStudent(student)" *ngFor="let student of filteredStudentNames | async" [value]="student">
                     {{student}}
                 </mat-option>
             </ng-container>

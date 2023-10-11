@@ -8,6 +8,7 @@ import { StudentDialogComponent } from '../student-dialog/student-dialog.compone
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { handleError } from '../util/error-util';
+import { ROUTE_STUDENT } from '../app-routing.module';
 
 @Component({
   selector: 'app-student-selector',
@@ -49,8 +50,8 @@ export class StudentSelectorComponent implements OnInit {
           option.toLowerCase().indexOf(val?.toLowerCase()) === 0);
     }
 
-    openStudentPage(student: string) {
-        this.router.navigate(['notes'], { queryParams: { student: student } });
+    getRouterLinkForStudent(studentName: string): string {
+        return `/${ROUTE_STUDENT.replace(":student", studentName)}`;
     }
 
     onClickCreate() {
