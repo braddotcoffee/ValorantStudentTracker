@@ -9,6 +9,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { handleError } from '../util/error-util';
 import { ROUTE_STUDENT } from '../app-routing.module';
+import { STORAGE_COACH_NAME_KEY } from 'src/main';
 
 @Component({
   selector: 'app-student-selector',
@@ -51,7 +52,7 @@ export class StudentSelectorComponent implements OnInit {
     }
 
     getRouterLinkForStudent(studentName: string): string {
-        return `/${ROUTE_STUDENT.replace(":student", studentName)}`;
+        return `/${ROUTE_STUDENT.replace(":coach", localStorage.getItem(STORAGE_COACH_NAME_KEY) ?? "").replace(":student", studentName)}`;
     }
 
     onClickCreate() {

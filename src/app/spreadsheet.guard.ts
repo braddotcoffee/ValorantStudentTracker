@@ -24,6 +24,7 @@ export class SpreadsheetGuard implements CanActivate {
         switch(next.routeConfig?.path) {
             case ROUTE_LANDING:
                 return this.handleRootPath();
+            case ROUTE_STUDENT:
             case ROUTE_COACH_SELECT:
                 const coachName = next.paramMap.get('coach');
                 if (coachName) {
@@ -31,8 +32,6 @@ export class SpreadsheetGuard implements CanActivate {
                 }
 
                 return false;
-            case ROUTE_STUDENT:
-                return this.handleStudentPath();
         }
 
         return false;
@@ -52,24 +51,16 @@ export class SpreadsheetGuard implements CanActivate {
         // If the requested coach is already stored, redirect to landing. Assume the spreadsheet id is correct.
         if (localStorage.getItem(STORAGE_COACH_NAME_KEY) === coachName
             && localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY) !== null) {
-            return this.router.createUrlTree([ROUTE_LANDING]);
+            return true;
         }
         
         // Update stored data for the requested coach and then redirect to landing.
         if (await this.storeSpreadsheetIdForCoach(coachName)) {
-            return this.router.createUrlTree([ROUTE_LANDING]);
+            return true;
         }
 
         // We failed to update stored data for the requested coach.
         return false;
-    }
-
-    handleStudentPath(): boolean | UrlTree {
-        if (localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY) === null) {
-            return this.router.createUrlTree([ROUTE_COACHES]);
-        }
-
-        return true;
     }
 
     async storeSpreadsheetIdForCoach(coachName: string): Promise<boolean> {
