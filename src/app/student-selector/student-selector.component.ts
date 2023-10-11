@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { handleError } from '../util/error-util';
 import { ROUTE_STUDENT } from '../app-routing.module';
 import { STORAGE_COACH_NAME_KEY } from 'src/main';
+import { CoachService } from '../coach.service';
 
 @Component({
   selector: 'app-student-selector',
@@ -18,11 +19,13 @@ import { STORAGE_COACH_NAME_KEY } from 'src/main';
 })
 export class StudentSelectorComponent implements OnInit {
     loading: boolean = true;
+    coachName: string = "";
     studentNames: string[] = [];
     filteredStudentNames: Observable<string[]>;
     searchStudentsCtrl = new FormControl();
 
     constructor(
+        private coachService: CoachService,
         public spreadsheetService: SpreadsheetService,
         public router: Router,
         private matDialog: MatDialog,
@@ -35,13 +38,20 @@ export class StudentSelectorComponent implements OnInit {
     }
 
     async ngOnInit(): Promise<void> {
-        const studentNameObservable = await this.spreadsheetService.instance.getStudentNames();
-        studentNameObservable.subscribe({
-            next: names => {
-                this.studentNames = names;
-            },
-            error: err => handleError(this.snackBar, err)
+        this.coachService.coach.subscribe({
+            next: async (coachName) => {
+                this.coachName = coachName;
+                
+                const studentNameObservable = await this.spreadsheetService.instance.getStudentNames();
+                studentNameObservable.subscribe({
+                    next: names => {
+                        this.studentNames = names;
+                    },
+                    error: err => handleError(this.snackBar, err)
+                });
+            }
         });
+
       
         this.loading = false;
     }

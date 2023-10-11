@@ -15,9 +15,9 @@ export class StudentLandingComponent implements OnInit {
     totalStudentsValue: number = 0;
     totalNotesValue: number = 0;
 
-    constructor(private spreadsheetService: SpreadsheetService) {
-
-    }
+    constructor(
+        private spreadsheetService: SpreadsheetService
+    ) { }
 
     async ngOnInit(): Promise<void> {
         this.rrGainedValue = Math.floor(Math.random() * (StudentLandingComponent.MAX_RR_GAINED_VALUE - StudentLandingComponent.MIN_RR_GAINED_VALUE + 1) + StudentLandingComponent.MIN_RR_GAINED_VALUE);
@@ -26,7 +26,7 @@ export class StudentLandingComponent implements OnInit {
     }
 
     getCoachName(): string {
-        return localStorage.getItem(STORAGE_COACH_NAME_KEY)?.toUpperCase() ?? "COACH";
+        return localStorage.getItem(STORAGE_COACH_NAME_KEY)?.toUpperCase() ?? "";
     }
 
     isWoohoojin(): boolean {

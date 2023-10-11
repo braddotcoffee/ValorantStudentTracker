@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree } from '@angular/router';
-import { CONFIG_SERVICE_REQUEST_TIMEOUT, STORAGE_COACH_NAME_KEY, STORAGE_SPREADSHEET_ID_KEY } from 'src/main';
-import { ROUTE_COACHES, ROUTE_COACH_SELECT, ROUTE_LANDING, ROUTE_STUDENT } from './app-routing.module';
+import { STORAGE_COACH_NAME_KEY, STORAGE_SPREADSHEET_ID_KEY } from 'src/main';
+import { ROUTE_COACH_SELECT, ROUTE_LANDING, ROUTE_STUDENT } from './app-routing.module';
 import { CoachService } from './coach.service';
-import { firstValueFrom, timeout } from 'rxjs';
-import { displaySnackBarError } from './util/error-util';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +11,6 @@ export class SpreadsheetGuard implements CanActivate {
     constructor(
         private router: Router,
         private coachService: CoachService,
-        private snackBar: MatSnackBar
     ) { }
 
     async canActivate(
@@ -38,8 +34,9 @@ export class SpreadsheetGuard implements CanActivate {
     }
 
     handleRootPath(): boolean | UrlTree {
-        if (localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY) === null) {
-            return this.router.createUrlTree([ROUTE_COACHES]);
+        const coachName = localStorage.getItem(STORAGE_COACH_NAME_KEY);
+        if (coachName !== null) {
+            return this.router.parseUrl(ROUTE_COACH_SELECT.replace(":coach", coachName));
         }
         
         return true;
@@ -48,32 +45,18 @@ export class SpreadsheetGuard implements CanActivate {
     async handleCoachPath(
         coachName: string
     ): Promise<boolean | UrlTree> {
-        // If the requested coach is already stored, redirect to landing. Assume the spreadsheet id is correct.
+        // If the requested coach is already stored, permit navigation. Assume the spreadsheet id is correct.
         if (localStorage.getItem(STORAGE_COACH_NAME_KEY) === coachName
             && localStorage.getItem(STORAGE_SPREADSHEET_ID_KEY) !== null) {
             return true;
         }
         
-        // Update stored data for the requested coach and then redirect to landing.
-        if (await this.storeSpreadsheetIdForCoach(coachName)) {
+        // Update stored data for the requested coach and then permit navigation].
+        if (await this.coachService.loadCoach(coachName)) {
             return true;
         }
 
         // We failed to update stored data for the requested coach.
         return false;
-    }
-
-    async storeSpreadsheetIdForCoach(coachName: string): Promise<boolean> {
-        return await firstValueFrom((await this.coachService.getCoach(coachName)).pipe(timeout(CONFIG_SERVICE_REQUEST_TIMEOUT)))
-            .then(coach => {
-                localStorage.setItem(STORAGE_COACH_NAME_KEY, coachName);
-                localStorage.setItem(STORAGE_SPREADSHEET_ID_KEY, coach.spreadsheetId);
-                return true;
-            })
-            // If we error the coach doesn't exist.
-            .catch(_ =>  {
-                displaySnackBarError(this.snackBar, "Failed to load coach...")
-                return false;
-            });
     }
 }

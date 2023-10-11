@@ -8,11 +8,11 @@ import { SpreadsheetGuard } from './spreadsheet.guard';
 const ROUTE_LANDING = "";
 const ROUTE_COACHES = "coaches";
 const ROUTE_COACH_SELECT = "coach/:coach";
-const ROUTE_STUDENT = ":coach/student/:student";
+const ROUTE_STUDENT = "coach/:coach/student/:student";
 const routes: Routes = [
     {
       path: ROUTE_LANDING,
-      component: StudentLandingComponent,
+      component: CoachSelectorComponent,
       canActivate: [SpreadsheetGuard]
     },
     {
