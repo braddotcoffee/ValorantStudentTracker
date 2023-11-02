@@ -7,10 +7,10 @@ services:
       - 5000:5000
     configs:
       - source: student-tracker-config
-        target: /config.yaml
+        target: /app/config.yaml
     secrets:
       - source: student-tracker-secrets
-        target: /secrets.yaml
+        target: /app/secrets.yaml
 configs:
   student-tracker-config:
     file: ./config.yaml
