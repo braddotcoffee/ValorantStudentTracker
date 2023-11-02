@@ -25,7 +25,7 @@ export class StudentNotesComponent implements OnInit {
     ) { }
 
     async ngOnInit(): Promise<void> {
-        this.route.queryParams.subscribe(async (params) => {
+        this.route.params.subscribe(async (params) => {
             const observable = await this.spreadsheetService.instance.getStudent(params['student']);
             observable.subscribe({
                 next: student => {

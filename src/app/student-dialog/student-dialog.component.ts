@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 import { handleError } from '../util/error-util';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { shouldTrackRR } from '../util/rank-util';
-import { CONFIG_DIALOG_INITIAL_SIZE, CONFIG_SERVICE_REQUEST_TIMEOUT } from 'src/main';
+import { CONFIG_DIALOG_INITIAL_SIZE, CONFIG_SERVICE_REQUEST_TIMEOUT, STORAGE_COACH_NAME_KEY } from 'src/main';
+import { ROUTE_STUDENT } from '../app-routing.module';
 
 @Component({
     selector: 'dialog-student',
@@ -100,7 +101,7 @@ export class StudentDialogComponent implements OnInit {
             next: _ => {
                 this.loading = false;
                 this.dialogRef.close();
-                this.router.navigate(['notes'], { queryParams: { student: student.name } });
+                this.router.navigateByUrl(`/${ROUTE_STUDENT.replace(":coach", localStorage.getItem(STORAGE_COACH_NAME_KEY) ?? "").replace(":student", student.name)}`);
             },
             error: err => handleError(this.snackBar, err)
         });

@@ -1,6 +1,6 @@
 <div class="landing-container">
-    <div class="landing-header">
-        <div class="landing-primary-text">WOOHOOJIN</div>
+    <div class="landing-header" [class.woohoojin-header]="isWoohoojin()">
+        <div class="landing-primary-text">{{getCoachName()}}</div>
         <div class="landing-secondary-text">Valorant Student Tracker</div>
     </div>
 

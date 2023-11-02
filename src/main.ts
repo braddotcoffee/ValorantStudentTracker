@@ -5,8 +5,15 @@ import { environment } from './environments/environment';
 
 // Configuration values.
 const CONFIG_DIALOG_INITIAL_SIZE = "40%";
-const CONFIG_SERVICE_REQUEST_TIMEOUT = 10000; //ms
-export { CONFIG_DIALOG_INITIAL_SIZE, CONFIG_SERVICE_REQUEST_TIMEOUT }
+const CONFIG_SERVICE_REQUEST_TIMEOUT = 2000; //ms
+const STORAGE_SPREADSHEET_ID_KEY = "STUDENT_TRACKER_SPREADSHEET_ID"
+const STORAGE_COACH_NAME_KEY = "STUDENT_TRACKER_COACH_NAME"
+export { 
+    CONFIG_DIALOG_INITIAL_SIZE, 
+    CONFIG_SERVICE_REQUEST_TIMEOUT, 
+    STORAGE_SPREADSHEET_ID_KEY,
+    STORAGE_COACH_NAME_KEY
+}
 
 if (environment.production) {
     enableProdMode();
@@ -14,10 +21,6 @@ if (environment.production) {
 
 export function getBackendUrl(): string {
     return environment.backendUrl;
-}
-
-export function getSpreadsheetID(): string {
-    return environment.spreadsheetId;
 }
 
 export function getGoogleClientID(): string {

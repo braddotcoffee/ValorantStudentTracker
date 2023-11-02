@@ -1,0 +1,66 @@
+.coaches-loading {
+    position:fixed;
+    top:50%;
+    left:50%
+}
+
+.coaches-container, .coaches-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 64px;
+    
+}
+
+.coaches-header {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 96px 0px;
+    gap: 64px;
+    background-color: var(--accent-100);
+    border-bottom: 4px solid var(--accent);
+}
+
+.coaches-primary-text {
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--primary);
+}
+
+.coach-selection {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 64px;
+    padding: 0px 10%;
+}
+
+.card {
+    display: flex;
+    width: 40%;
+    height: 192px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    gap: 16px;
+    background-color: var(--primary-800);
+    border-top: 2px solid var(--accent);
+}
+
+.card:hover {
+    background-color: var(--primary-850);
+    transition-duration: .25s;
+}
+
+.card-title {
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--accent);
+}

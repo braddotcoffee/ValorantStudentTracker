@@ -21,8 +21,14 @@
 .right {
     display: flex;
     justify-content: right;
+    align-items: center;
 }
 
 .center {
     width: 40%
+}
+
+.coaches-button {
+    display: flex;
+    margin: 12px;
 }
